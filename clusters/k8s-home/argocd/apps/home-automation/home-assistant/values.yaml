@@ -1,0 +1,75 @@
+controllers:
+  main:
+    containers:
+      main:
+        image:
+          repository: ghcr.io/home-assistant/home-assistant
+          tag: 2024.2.2
+        env:
+          TZ: UTC
+        probes:
+          liveness:
+            enabled: false
+          readiness:
+            enabled: false
+          startup:
+            enabled: false
+        resources:
+          requests:
+            cpu: 10m
+          limits:
+            memory: 1Gi
+        securityContext:
+          privileged: true
+          capabilities: { drop: ["ALL"] }
+
+service:
+  main:
+    ports:
+      http:
+        port: 8123
+
+ingress:
+  main:
+    enabled: true
+    annotations:
+      cert-manager.io/cluster-issuer: letsencrypt-dns
+      nginx.org/websocket-services: home-assistant
+    hosts:
+      - host: hass.otohgunga.nl
+        paths:
+          - path: /
+            service:
+              name: main
+              port: http
+            pathType: Prefix
+    tls:
+      - hosts:
+          - hass.otohgunga.nl
+        secretName: hass-otohgunga-tls
+
+persistence:
+  config:
+    enabled: true
+    existingClaim: hostpath-hass-pvc
+    mountPath: /config
+  usb:
+    enabled: true
+    type: hostPath
+    hostPath: /dev/serial/by-id/
+  usb0:
+    enabled: true
+    type: hostPath
+    hostPath: /dev/ttyUSB0
+  usb1:
+    enabled: true
+    type: hostPath
+    hostPath: /dev/ttyUSB1
+  usb2:
+    enabled: true
+    type: hostPath
+    hostPath: /dev/ttyUSB2
+  usb3:
+    enabled: true
+    type: hostPath
+    hostPath: /dev/ttyUSB3

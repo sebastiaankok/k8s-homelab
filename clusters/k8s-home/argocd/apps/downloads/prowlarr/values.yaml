@@ -1,0 +1,107 @@
+controllers:
+  main:
+    containers:
+      main:
+        image:
+          repository: ghcr.io/onedr0p/prowlarr-nightly
+          tag: 1.14.1.4302@sha256:3dd6ee4be351b2ccad1bf83d2f9c3b69482c61519c930b634e0d7a25c199547e
+        env:
+          PROWLARR__INSTANCE_NAME: Prowlarr
+          PROWLARR__PORT: &port 9696
+          PROWLARR__LOG_LEVEL: info
+          PROWLARR__ANALYTICS_ENABLED: "False"
+        securityContext:
+          runAsUser: 568
+          runAsGroup: 568
+          runAsNonRoot: true
+          allowPrivilegeEscalation: false
+          readOnlyRootFilesystem: false
+          capabilities:
+            drop:
+              - ALL
+      dnsdist:
+        image:
+          repository: docker.io/powerdns/dnsdist-18
+          tag: 1.8.3
+        securityContext:
+          allowPrivilegeEscalation: false
+          readOnlyRootFilesystem: true
+          capabilities:
+            drop:
+              - ALL
+      gluetun:
+        image:
+          repository: ghcr.io/qdm12/gluetun
+          tag: latest@sha256:ea17355896ba98a4bfaf975bcda3993c2c94178188fb3efbfaefbdccb99edd65
+        env:
+          - name: VPN_SERVICE_PROVIDER
+            value: protonvpn
+          - name: SERVER_COUNTRIES
+            value: Netherlands
+          - name: DNS_PLAINTEXT_ADDRESS
+            value: 127.0.0.2
+          - name: SHADOWSOCKS
+            value: "on"
+          - name: DOT
+            value: "off"
+          - name: FREE_ONLY
+            value: "on"
+          - name: FIREWALL_OUTBOUND_SUBNETS
+            value: 10.0.0.0/16,10.42.0.0/16,10.43.0.0/16
+          - name: FIREWALL_INPUT_PORTS
+            value: *port
+        envFrom:
+          - secretRef:
+              name: vpn-secret
+        securityContext:
+          capabilities:
+            add:
+              - NET_ADMIN
+
+persistence:
+  config:
+    enabled: true
+    existingClaim: hostpath-prowlarr-pvc
+    advancedMounts:
+      main:
+        main:
+          - path: /config
+  gluetun-data:
+    type: emptyDir
+    advancedMounts:
+      main:
+        gluetun:
+          - path: /tmp/gluetun
+  dnsdist-config:
+    type: configMap
+    name: dnsdist-config
+    advancedMounts:
+      main:
+        dnsdist:
+          - path: /etc/dnsdist/dnsdist.conf
+            subPath: dnsdist.conf
+            readOnly: true
+
+service:
+  main:
+    ports:
+      http:
+        port: *port
+
+ingress:
+  main:
+    enabled: true
+    className: nginx
+    annotations:
+      cert-manager.io/cluster-issuer: letsencrypt-dns
+    hosts:
+      - host: "prowlarr.otohgunga.nl"
+        paths:
+          - path: /
+            service:
+              name: main
+              port: http
+    tls:
+      - hosts:
+          - "prowlarr.otohgunga.nl"
+        secretName: "prowlarr-otohgunga-tls"

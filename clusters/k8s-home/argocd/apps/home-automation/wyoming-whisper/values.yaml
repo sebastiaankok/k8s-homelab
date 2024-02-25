@@ -1,0 +1,45 @@
+controllers:
+  main:
+    containers:
+      main:
+        image:
+          repository: rhasspy/wyoming-whisper
+          tag: 1.0.0
+        args:
+          - --model
+          - medium-int8
+          - --beam-size
+          - '2'
+          - --language
+          - nl
+        probes:
+          liveness:
+            enabled: false
+          readiness:
+            enabled: false
+
+service:
+  main:
+    type: ClusterIP
+    ports:
+      http:
+        enabled: false
+        primary: false
+      whisper:
+        enabled: true
+        primary: true
+        port: 10300
+        protocol: TCP
+
+ingress:
+  main:
+    enabled: false
+
+persistence:
+  config:
+    enabled: false
+  data:
+    enabled: true
+    existingClaim: hostpath-wyoming-whisper-pvc
+    globalMounts:
+      - path: /data

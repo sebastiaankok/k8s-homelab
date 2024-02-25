@@ -1,0 +1,31 @@
+apiVersion: argoproj.io/v1alpha1
+kind: Application
+metadata:
+  name: sonarr
+  namespace: argocd
+  annotations:
+    argocd.argoproj.io/sync-wave: "3"
+spec:
+  project: default
+  syncPolicy:
+    automated:
+      prune: true
+  destination:
+    name: in-cluster
+    namespace: plex
+  sources:
+    - repoURL: 'git@github.com:sebastiaankok/k8s-homelab.git'
+      targetRevision: main
+      path: "clusters/k8s-home/argocd/apps/downloads/sonarr/"
+      directory:
+        exclude: '{application.yaml,values.yaml}'
+    - chart: app-template
+      repoURL: 'https://bjw-s.github.io/helm-charts'
+      targetRevision: 2.6.0
+      helm:
+        releaseName: "sonarr"
+        valueFiles:
+          - $values/clusters/k8s-home/argocd/apps/downloads/sonarr/values.yaml
+    - repoURL: 'git@github.com:sebastiaankok/k8s-homelab.git'
+      targetRevision: main
+      ref: values

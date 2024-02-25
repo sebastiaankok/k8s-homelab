@@ -1,0 +1,64 @@
+controllers:
+  main:
+    annotations:
+      reloader.stakater.com/auto: "true"
+      backup.velero.io/backup-volumes: data
+    containers:
+      main:
+        image:
+          repository: ghcr.io/koenkk/zigbee2mqtt
+          tag: 1.35.3@sha256:f80dbca12732841eb9f77b04903d00369543c65632f9209fc1c545e9525e7bdd
+        env:
+          TZ: UTC
+          ZIGBEE2MQTT_DATA: /data
+        securityContext:
+          privileged: true
+          capabilities: { drop: ["ALL"] }
+        resources:
+          requests:
+            cpu: 10m
+            memory: 128Mi
+          limits:
+            memory: 512Mi
+
+service:
+  main:
+    ports:
+      http:
+        port: 8080
+
+ingress:
+  main:
+    enabled: true
+    annotations:
+      cert-manager.io/cluster-issuer: letsencrypt-dns
+    hosts:
+      - host: zigbee2mqtt.otohgunga.nl
+        paths:
+          - path: /
+            service:
+              name: main
+              port: http
+    tls:
+      - secretName: zigbee2mqtt-otohgunga-tls
+        hosts:
+          - zigbee2mqtt.otohgunga.nl
+
+persistence:
+  data:
+    enabled: true
+    accessMode: ReadWriteOnce
+    size: 1Gi
+      #existingClaim: nfs-zigbee2mqtt-pvc
+    existingClaim: hostpath-zigbee2mqtt-pvc
+    mountPath: /data
+  config:
+    enabled: true
+    type: configMap
+    name: zigbee2mqtt-config
+    mountPath: /app/configuration.yaml
+    subPath: configuration.yaml
+  usbserial:
+    enabled: true
+    type: hostPath
+    hostPath: /dev/serial/by-id/usb-ITead_Sonoff_Zigbee_3.0_USB_Dongle_Plus_da3c386a8212ec11915520c7bd930c07-if00-port0

@@ -1,0 +1,15 @@
+controller:
+  kind: Deployment
+  priorityClassName: system-cluster-critical
+  watchIngressWithoutClass: false
+  ingressClass: ingress-nginx-plex
+  ingressClassResource:
+    name: ingress-nginx-plex
+    enabled: true
+    default: false
+    controllerValue: "k8s.io/ingress-nginx-plex"
+  service:
+    externalTrafficPolicy: Local
+    loadBalancerIP: 10.10.21.86
+  config:
+    disable-access-log: "true"

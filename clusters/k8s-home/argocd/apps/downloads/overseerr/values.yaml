@@ -1,0 +1,48 @@
+controllers:
+  main:
+    containers:
+      main:
+        image:
+          repository: ghcr.io/sct/overseerr
+          tag: 8251c73ffae678c89eae2de13ee2e9a0afb8d755
+        securityContext:
+          runAsUser: 568
+          runAsGroup: 568
+          runAsNonRoot: true
+          allowPrivilegeEscalation: false
+          readOnlyRootFilesystem: false
+          capabilities:
+            drop:
+              - ALL
+
+persistence:
+  config:
+    enabled: true
+    existingClaim: hostpath-overseerr-pvc
+    advancedMounts:
+      main:
+        main:
+          - path: /app/config
+service:
+  main:
+    ports:
+      http:
+        port: 5055
+
+ingress:
+  main:
+    enabled: true
+    className: ingress-nginx-plex
+    annotations:
+      cert-manager.io/cluster-issuer: letsencrypt-dns
+    hosts:
+      - host: "overseerr.otohgunga.nl"
+        paths:
+          - path: /
+            service:
+              name: main
+              port: http
+    tls:
+      - hosts:
+          - "overseerr.otohgunga.nl"
+        secretName: "overseerr-otohgunga-tls"

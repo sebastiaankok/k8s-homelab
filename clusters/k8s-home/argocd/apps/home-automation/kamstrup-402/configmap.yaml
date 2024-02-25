@@ -1,0 +1,27 @@
+apiVersion: v1
+kind: ConfigMap
+metadata:
+  name: kamstrup-config
+  namespace: hass
+data:
+  config.yaml: |
+    mqtt:
+        host: 10.10.21.81
+        port: 1883
+        client: kamstrup
+        topic: kamstrup
+        qos: 0
+        retain: False
+        authentication: False
+        username: user1
+        password: changeit
+    serial_device:
+        com_port: /dev/serial/by-id/usb-Silicon_Labs_CP2102_USB_to_UART_Bridge_Controller_0001-if00-port0
+    kamstrup:
+        parameters:
+        - energy
+        - volume
+        - temp1
+        - temp2
+        - tempdiff
+        poll_interval: 1

@@ -1,0 +1,26 @@
+apiVersion: v1
+kind: ConfigMap
+metadata:
+  name: zigbee2mqtt-config
+data:
+  configuration.yaml: |
+    advanced:
+      homeassistant_discovery_topic: homeassistant
+      homeassistant_status_topic: homeassistant/status
+      last_seen: ISO_8601
+      log_level: info
+      log_output:
+      - console
+      network_key: GENERATE
+    experimental:
+      new_api: true
+    frontend:
+      port: 8080
+    homeassistant: true
+    mqtt:
+      base_topic: zigbee2mqtt
+      include_device_information: true
+      server: mqtt://10.10.21.81:1883
+    permit_join: false
+    serial:
+      port: /dev/serial/by-id/usb-ITead_Sonoff_Zigbee_3.0_USB_Dongle_Plus_da3c386a8212ec11915520c7bd930c07-if00-port0

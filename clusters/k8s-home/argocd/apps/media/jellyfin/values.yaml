@@ -1,0 +1,90 @@
+defaultPodOptions:
+  securityContext:
+    runAsUser: 568
+    runAsGroup: 568
+    fsGroup: 568
+    fsGroupChangePolicy: OnRootMismatch
+controllers:
+  main:
+    type: statefulset
+    annotations:
+      reloader.stakater.com/auto: "true"
+    containers:
+      main:
+        image:
+          repository: ghcr.io/onedr0p/jellyfin
+          tag: 10.8.11@sha256:926e2a9f6677a0c7b12feba29f36c954154869318d6a52df72f72ff9c74cf494
+        env:
+          JELLYFIN_FFmpeg__probesize: 50000000
+          JELLYFIN_FFmpeg__analyzeduration: 50000000
+          JELLYFIN_PublishedServerUrl: &loadBalancerIP 10.10.21.90
+          TZ: UTC
+        probes:
+          liveness: &probes
+            enabled: true
+            custom: true
+            spec:
+              httpGet:
+                path: /health
+                port: &port 8096
+              initialDelaySeconds: 0
+              periodSeconds: 10
+              timeoutSeconds: 1
+              failureThreshold: 3
+          readiness: *probes
+          startup:
+            enabled: false
+        resources:
+          requests:
+            cpu: 100m
+            memory: 512Mi
+          limits:
+            memory: 4Gi
+service:
+  main:
+    type: LoadBalancer
+    loadBalancerIP: *loadBalancerIP
+    externalTrafficPolicy: Local
+    ports:
+      http:
+        port: 8096
+ingress:
+  main:
+    enabled: true
+    className: ingress-nginx-plex
+    annotations:
+      cert-manager.io/cluster-issuer: letsencrypt-dns
+    hosts:
+      - host: &host "jellyfin.otohgunga.nl"
+        paths:
+          - path: /
+            service:
+              name: main
+              port: http
+    tls:
+      - hosts:
+          - *host
+        secretName: "jellyfin-otohgunga-tls"
+persistence:
+  config:
+    enabled: true
+    existingClaim: hostpath-jellyfin-pvc
+    globalMounts:
+      - path: /config
+
+  video:
+    enabled: true
+    type: hostPath
+    hostPath: /data/library
+    globalMounts:
+      - path: /mnt/storage/video
+  transcode:
+    enabled: true
+    type: emptyDir
+    globalMounts:
+      - path: /transcode
+  cache:
+    enabled: true
+    type: emptyDir
+    globalMounts:
+      - path: /cache

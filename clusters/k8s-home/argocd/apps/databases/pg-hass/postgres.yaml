@@ -1,0 +1,38 @@
+apiVersion: postgresql.cnpg.io/v1
+kind: Cluster
+metadata:
+  name: pg-hass
+  namespace: pg-hass
+spec:
+  instances: 1
+  imageName: ghcr.io/cloudnative-pg/postgresql:15 # which PG version to use
+  bootstrap:
+    initdb:
+      database: home_assistant
+      owner: user_home_assistant
+      secret:
+        name: pg-hass-creds
+  storage:
+    pvcTemplate:
+      accessModes:
+        - ReadWriteOnce
+      resources:
+        requests:
+          storage: 10Gi
+      storageClassName: local-path
+  backup:
+    barmanObjectStore:
+      endpointURL: "https://s3.eu-central-003.backblazeb2.com/"
+      destinationPath: "s3://k3s-homelab/pg-backups"
+      wal:
+        maxParallel: 4
+      data:
+        jobs: 4
+      s3Credentials:
+        accessKeyId:
+          name: s3-creds
+          key: ACCESS_KEY_ID
+        secretAccessKey:
+          name: s3-creds
+          key: ACCESS_SECRET_KEY
+    retentionPolicy: "2d"

@@ -1,0 +1,89 @@
+controllers:
+  main:
+    pod:
+      securityContext:
+        runAsUser: 568
+        runAsGroup: 568
+        runAsNonRoot: true
+        fsGroup: 568
+        fsGroupChangePolicy: OnRootMismatch
+    containers:
+      main:
+        image:
+          repository: ghcr.io/onedr0p/sabnzbd
+          tag: 4.2.2@sha256:5b1f15c8d25afa2342505492486361d4ecf14449e1453aeea45cd7c1e5eeb63a
+        env:
+          SABNZBD__PORT: &port 8080
+          SABNZBD__HOST_WHITELIST_ENTRIES: >-
+            sabnzbd,
+            sabnzbd.plex,
+            sabnzbd.plex.svc,
+            sabnzbd.plex.svc.cluster,
+            sabnzbd.plex.svc.cluster.local,
+            sabnzbd.otohgunga.nl
+        resources:
+          requests:
+            cpu: 5m
+            memory: 1024Mi
+          limits:
+            memory: 6144Mi
+        securityContext:
+          allowPrivilegeEscalation: false
+          readOnlyRootFilesystem: true
+          capabilities:
+            drop:
+              - ALL
+
+service:
+  main:
+    ports:
+      http:
+        port: *port
+
+ingress:
+  main:
+    enabled: true
+    className: nginx
+    annotations:
+      cert-manager.io/cluster-issuer: letsencrypt-dns
+    hosts:
+      - host: "sabnzbd.otohgunga.nl"
+        paths:
+          - path: /
+            service:
+              name: main
+              port: http
+    tls:
+      - hosts:
+          - "sabnzbd.otohgunga.nl"
+        secretName: "sabnzbd-otohgunga-tls"
+
+persistence:
+  config:
+    enabled: true
+    existingClaim: hostpath-sabnzbd-pvc
+    advancedMounts:
+      main:
+        main:
+          - path: /config
+  media:
+    type: hostPath
+    hostPath: /data/library/
+    globalMounts:
+      - path: /data/nas-media-ssd
+
+  download:
+    type: hostPath
+    hostPath: /data/library/dl/incomplete
+    advancedMounts:
+      main:
+        main:
+          - path: /data/incomplete
+
+  tmp:
+    type: emptyDir
+    medium: Memory
+    advancedMounts:
+      main:
+        main:
+          - path: /tmp

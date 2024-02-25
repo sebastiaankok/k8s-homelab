@@ -1,0 +1,75 @@
+controllers:
+  main:
+    type: cronjob
+    cronjob:
+      # -- Suspends the CronJob
+      # [[ref]](https://kubernetes.io/docs/concepts/workloads/controllers/cron-jobs/#schedule-suspension)
+      # @default -- false
+      suspend:
+      # -- Specifies how to treat concurrent executions of a job that is created by this cron job
+      # valid values are Allow, Forbid or Replace
+      concurrencyPolicy: Forbid
+      # -- Sets the CronJob timezone (only works in Kubernetes >= 1.27)
+      timeZone:
+      # -- Sets the CronJob time when to execute your jobs
+      schedule: "0 2 * * *"
+      # -- The deadline in seconds for starting the job if it misses its scheduled time for any reason
+      startingDeadlineSeconds: 30
+      # -- The number of succesful Jobs to keep
+      successfulJobsHistory: 1
+      # -- The number of failed Jobs to keep
+      failedJobsHistory: 1
+      # -- If this field is set, ttlSecondsAfterFinished after the Job finishes, it is eligible to
+      # be automatically deleted.
+      ttlSecondsAfterFinished:
+      # -- Limits the number of times a failed job will be retried
+      backoffLimit: 6
+    containers:
+      main:
+        # -- Override the container name
+        nameOverride: rclone
+
+        # -- Override the default container order
+        # Containers get sorted alphanumerically by the `<order>-<identifier>` combination.
+        # @default -- 99
+        order: 1
+
+        # -- Specify if this container depends on any other containers
+        # This is used to determine the order in which the containers are rendered.
+        # The use of "dependsOn" completely disables the "order" field within the controller.
+        dependsOn: []
+
+        image:
+          # -- image repository
+          repository: rclone/rclone
+          # -- image tag
+          tag: 1.65
+          # -- image pull policy
+          pullPolicy:
+
+        # -- Override the command(s) for the default container
+        command:
+          - /bin/sh
+          - /script/backup.sh
+
+
+service:
+  main:
+    enabled: false
+
+persistence:
+  data:
+    enabled: true
+    type: hostPath
+    hostPath: /data
+    mountPath: /data
+  config:
+    enabled: true
+    type: secret
+    name: rclone-secret
+    mountPath: /root/.config/rclone/
+  script:
+    enabled: true
+    type: configMap
+    name: rclone-script
+    mountPath: /root

@@ -1,0 +1,21 @@
+apiVersion: argoproj.io/v1alpha1
+kind: Application
+metadata:
+  name: pg-nextcloud
+  namespace: argocd
+  annotations:
+    argocd.argoproj.io/sync-wave: "1"
+spec:
+  project: default
+  syncPolicy:
+    automated:
+      prune: true
+  destination:
+    name: in-cluster
+    namespace: pg-nextcloud
+  sources:
+    - repoURL: 'git@github.com:sebastiaankok/k8s-homelab.git'
+      targetRevision: main
+      path: "clusters/k8s-home/argocd/apps/databases/pg-nextcloud/"
+      directory:
+        exclude: '{application.yaml,values.yaml}'

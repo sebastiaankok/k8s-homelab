@@ -1,0 +1,47 @@
+controllers:
+  main:
+    containers:
+      main:
+        image:
+          repository: public.ecr.aws/docker/library/eclipse-mosquitto
+          tag: 2.0.18
+        resources:
+          requests:
+            cpu: 5m
+            memory: 10M
+          limits:
+            memory: 10M
+
+service:
+  main:
+    type: LoadBalancer
+    loadBalancerIP: 10.10.21.81
+    annotations:
+      io.cilium/lb-ipam-ips: "10.10.21.81"
+    externalTrafficPolicy: Local
+    ports:
+      http:
+        enabled: false
+      mqtt:
+        enabled: true
+        port: 1883
+
+ingress:
+  main:
+    enabled: false
+
+persistence:
+  data:
+    existingClaim: hostpath-mosquitto-pvc
+    advancedMounts:
+      main:
+        main:
+          - path: /mosquitto/data
+  mosquitto-configfile:
+    type: configMap
+    name: mosquitto-config
+    advancedMounts:
+      main:
+        main:
+          - path: /mosquitto/config/mosquitto.conf
+            subPath: mosquitto.conf

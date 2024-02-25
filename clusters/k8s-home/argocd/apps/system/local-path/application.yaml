@@ -1,0 +1,30 @@
+apiVersion: argoproj.io/v1alpha1
+kind: Application
+metadata:
+  name: local-path
+  namespace: argocd
+  annotations:
+    argocd.argoproj.io/sync-wave: "1"
+spec:
+  project: default
+  syncPolicy:
+    automated:
+      prune: true
+  destination:
+    name: in-cluster
+    namespace: kube-system
+  sources:
+    - repoURL: 'git@github.com:sebastiaankok/k8s-homelab.git'
+      targetRevision: main
+      ref: values
+    - repoURL: 'git@github.com:sebastiaankok/k8s-homelab.git'
+      targetRevision: main
+      path: "clusters/k8s-home/argocd/apps/system/local-path"
+      directory:
+        exclude: '{application.yaml,values.yaml}'
+    - path: "deploy/chart/local-path-provisioner"
+      repoURL: 'https://github.com/rancher/local-path-provisioner.git'
+      targetRevision: v0.0.26
+      helm:
+        valueFiles:
+          - $values/clusters/k8s-home/argocd/apps/system/local-path/values.yaml
