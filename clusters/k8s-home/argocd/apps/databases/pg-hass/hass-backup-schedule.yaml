@@ -4,7 +4,7 @@ metadata:
   name: hass-backup-schedule
   namespace: pg-hass
 spec:
-  schedule: "0 0 4 1/1 * *" # every day at 4 am, see https://crontab.cronhub.io/
+  schedule: "0 2 * * 1" # At 02:00 AM, only on Monday, see https://crontab.cronhub.io/
   backupOwnerReference: self
   immediate: true
   cluster:
