@@ -1,0 +1,50 @@
+controllers:
+  main:
+    pod:
+      securityContext:
+        runAsUser: 568
+        runAsGroup: 568
+    containers:
+      main:
+        image:
+          repository: ghcr.io/onedr0p/tautulli
+          tag: 2.13.4@sha256:d925cbb3ff9d8da8e926953d320137a5b3819f31d0ab3e06350ae995b442594f
+        resources:
+          requests:
+            cpu: 5m
+            memory: 128Mi
+          limits:
+            memory: 512Mi
+
+service:
+  main:
+    ports:
+      http:
+        port: 8181
+
+ingress:
+  main:
+    enabled: true
+    className: nginx
+    annotations:
+      cert-manager.io/cluster-issuer: letsencrypt-dns
+    hosts:
+      - host: "tautulli.example.com"
+        paths:
+          - path: /
+            service:
+              name: main
+              port: http
+    tls:
+      - hosts:
+          - "tautulli.example.com"
+        secretName: "tautulli-otohgunga-tls"
+
+persistence:
+  config:
+    enabled: true
+    existingClaim: hostpath-tautulli-pvc
+    globalMounts:
+      - path: /config
+
+

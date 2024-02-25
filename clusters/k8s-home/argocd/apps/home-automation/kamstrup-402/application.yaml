@@ -1,0 +1,31 @@
+apiVersion: argoproj.io/v1alpha1
+kind: Application
+metadata:
+  name: kamstrup-402
+  namespace: argocd
+  annotations:
+    argocd.argoproj.io/sync-wave: "3"
+spec:
+  project: default
+  syncPolicy:
+    automated:
+      prune: true
+  destination:
+    name: in-cluster
+    namespace: hass
+  sources:
+    - repoURL: 'git@github.com:sebastiaankok/k8s-homelab.git'
+      targetRevision: main
+      ref: values
+    - repoURL: 'git@github.com:sebastiaankok/k8s-homelab.git'
+      targetRevision: main
+      path: "clusters/k8s-home/argocd/apps/home-automation/kamstrup-402/"
+      directory:
+        exclude: '{application.yaml,values.yaml}'
+    - chart: app-template
+      repoURL: 'https://bjw-s.github.io/helm-charts'
+      targetRevision: 2.6.0
+      helm:
+        releaseName: "kamstrup-402"
+        valueFiles:
+          - $values/clusters/k8s-home/argocd/apps/home-automation/kamstrup-402/values.yaml

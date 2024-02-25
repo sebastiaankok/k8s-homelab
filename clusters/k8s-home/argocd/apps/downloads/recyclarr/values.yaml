@@ -1,0 +1,58 @@
+controllers:
+  main:
+    type: cronjob
+
+    cronjob:
+      schedule: "@daily"
+
+    pod:
+      securityContext:
+        runAsUser: 568
+        runAsGroup: 568
+        runAsNonRoot: true
+
+    containers:
+      main:
+        image:
+          repository: ghcr.io/recyclarr/recyclarr
+          tag: 6.0.2
+        args:
+          - sync
+        env:
+          COMPlus_EnableDiagnostics: "0"
+        envFrom:
+          - secretRef:
+              name: recyclarr-secret
+        resources:
+          requests:
+            cpu: 5m
+            memory: 36M
+          limits:
+            memory: 128M
+        securityContext:
+          allowPrivilegeEscalation: false
+          readOnlyRootFilesystem: false
+          capabilities:
+            drop:
+              - ALL
+
+persistence:
+  config:
+    enabled: true
+    existingClaim: hostpath-recyclarr-pvc
+    advancedMounts:
+      main:
+        main:
+          - path: /config
+  config-file:
+    enabled: true
+    type: configMap
+    name: recyclarr-configmap
+    globalMounts:
+      - path: /config/recyclarr.yml
+        subPath: recyclarr.yml
+        readOnly: true
+
+service:
+  main:
+    enabled: false

@@ -1,0 +1,41 @@
+controllers:
+  main:
+    containers:
+      main:
+        image:
+          repository: ghcr.io/sebastiaankok/kamstrup-402-mqtt
+          tag: master
+        env:
+          TZ: UTC
+        securityContext:
+          privileged: true
+          capabilities: { drop: ["ALL"] }
+        resources:
+          requests:
+            cpu: 10m
+            memory: 128Mi
+          limits:
+            memory: 512Mi
+
+service:
+  main:
+    enabled: false
+
+ingress:
+  main:
+    enabled: false
+
+persistence:
+  config:
+    enabled: true
+    type: configMap
+    name: kamstrup-config
+    advancedMounts:
+      main:
+        main:
+          - path: /opt/kamstrup/config.yaml
+            subPath: config.yaml
+  usbserial:
+    enabled: true
+    type: hostPath
+    hostPath: /dev/serial/by-id/usb-Silicon_Labs_CP2102_USB_to_UART_Bridge_Controller_0001-if00-port0

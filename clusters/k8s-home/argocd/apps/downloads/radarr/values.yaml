@@ -1,0 +1,62 @@
+controllers:
+  main:
+    containers:
+      main:
+        image:
+          repository: ghcr.io/onedr0p/radarr
+          tag: 5.3.6.8612@sha256:d0786b4c22ab3a9a34cef30671a471c89df2beb95a7d50ba60e2f21dea5e0b28
+        env:
+          RADARR__INSTANCE_NAME: Radarr
+          RADARR__PORT: &port 7878
+          RADARR__AUTHENTICATION_REQUIRED: DisabledForLocalAddresses
+          RADARR__APPLICATION_URL: "https://radarr.example.com"
+          RADARR__LOG_LEVEL: info
+        securityContext:
+          runAsUser: 568
+          runAsGroup: 568
+          runAsNonRoot: true
+          allowPrivilegeEscalation: false
+          readOnlyRootFilesystem: false
+          capabilities:
+            drop:
+              - ALL
+persistence:
+  config:
+    enabled: true
+    existingClaim: hostpath-radarr-pvc
+    advancedMounts:
+      main:
+        main:
+          - path: /config
+  media:
+    enabled: true
+    type: hostPath
+    hostPath: /data/library
+    advancedMounts:
+      main:
+        main:
+          - path: /data/nas-media-ssd
+
+service:
+  main:
+    ports:
+      http:
+        port: *port
+
+ingress:
+  main:
+    enabled: true
+    className: nginx
+    annotations:
+      cert-manager.io/cluster-issuer: letsencrypt-dns
+    hosts:
+      - host: "radarr.example.com"
+        paths:
+          - path: /
+            service:
+              name: main
+              port: http
+    tls:
+      - hosts:
+          - "radarr.example.com"
+        secretName: "radarr-otohgunga-tls"

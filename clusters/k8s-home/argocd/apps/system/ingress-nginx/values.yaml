@@ -1,0 +1,9 @@
+controller:
+  kind: Deployment
+  priorityClassName: system-cluster-critical
+  watchIngressWithoutClass: true
+  service:
+    externalTrafficPolicy: Local
+    loadBalancerIP: 10.10.21.80
+  config:
+    disable-access-log: "true"

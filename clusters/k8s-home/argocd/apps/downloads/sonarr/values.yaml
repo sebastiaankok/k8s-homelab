@@ -1,0 +1,63 @@
+controllers:
+  main:
+    containers:
+      main:
+        image:
+          repository: ghcr.io/onedr0p/sonarr-develop
+          tag: 4.0.1.1168@sha256:5ea8846eb99054ec31f412a5af3c87fc5d359c0a0de5571636831530ce8d6348
+        env:
+          SONARR__INSTANCE_NAME: Sonarr
+          SONARR__PORT: &port 8989
+          SONARR__AUTHENTICATION_REQUIRED: DisabledForLocalAddresses
+          SONARR__APPLICATION_URL: "https://sonarr.example.com"
+          SONARR__LOG_LEVEL: info
+        securityContext:
+          runAsUser: 568
+          runAsGroup: 568
+          runAsNonRoot: true
+          allowPrivilegeEscalation: false
+          readOnlyRootFilesystem: false
+          capabilities:
+            drop:
+              - ALL
+
+persistence:
+  config:
+    enabled: true
+    existingClaim: hostpath-sonarr-pvc
+    advancedMounts:
+      main:
+        main:
+          - path: /config
+  media:
+    enabled: true
+    type: hostPath
+    hostPath: /data/library
+    advancedMounts:
+      main:
+        main:
+          - path: /data/nas-media-ssd
+
+service:
+  main:
+    ports:
+      http:
+        port: *port
+
+ingress:
+  main:
+    enabled: true
+    className: nginx
+    annotations:
+      cert-manager.io/cluster-issuer: letsencrypt-dns
+    hosts:
+      - host: "sonarr.example.com"
+        paths:
+          - path: /
+            service:
+              name: main
+              port: http
+    tls:
+      - hosts:
+          - "sonarr.example.com"
+        secretName: "sonarr-otohgunga-tls"
