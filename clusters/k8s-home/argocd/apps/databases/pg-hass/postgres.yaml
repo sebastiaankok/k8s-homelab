@@ -35,4 +35,4 @@ spec:
         secretAccessKey:
           name: s3-creds
           key: ACCESS_SECRET_KEY
-    retentionPolicy: "2d"
+    retentionPolicy: "7d"
