@@ -1,11 +1,8 @@
 {
   $schema: "https://docs.renovatebot.com/renovate-schema.json",
-  platform: "github",
-  username: "sebastiaankok[bot]",
   ignorePaths: ["^archive/**"],
   prHourlyLimit: 10,
   extends: ["mergeConfidence:all-badges"],
-  repositories: ["sebastiaankok/k8s-homelab"],
   argocd: {
     fileMatch: ["^clusters/.+\\.ya?ml$"],
   },
