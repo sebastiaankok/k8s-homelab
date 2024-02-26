@@ -33,4 +33,5 @@ jobs:
         with:
           configurationFile: ".github/renovate.json5"
           token: ${{ secrets.RENOVATE_TOKEN }}
-          LOG_LEVEL: "debug"
+        env:
+          LOG_LEVEL: 'debug'
