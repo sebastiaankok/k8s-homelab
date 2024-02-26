@@ -4,7 +4,7 @@ controllers:
       main:
         image:
           repository: ghcr.io/sebastiaankok/kamstrup-402-mqtt
-          tag: master
+          tag: sha256:8cb2fcdac8a09133e251031d74f88a76cb95553c10fa3b5cc14887d8e675daa2
         env:
           TZ: UTC
         securityContext:
