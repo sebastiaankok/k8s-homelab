@@ -20,8 +20,6 @@ on:
       - main
     paths:
       - ".github/renovate.json5"
-      - ".github/renovate/**.json"
-      - ".github/renovate/**.json5"
       - ".github/workflows/schedule-renovate.yaml"
 
 jobs:
@@ -35,3 +33,4 @@ jobs:
         with:
           configurationFile: ".github/renovate.json5"
           token: ${{ secrets.RENOVATE_TOKEN }}
+          LOG_LEVEL: "debug"
