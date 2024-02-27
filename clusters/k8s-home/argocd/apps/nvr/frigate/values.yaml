@@ -1,0 +1,74 @@
+controllers:
+  main:
+    containers:
+      main:
+        image:
+          repository: ghcr.io/blakeblackshear/frigate
+          tag: 0.13.2
+        probes:
+          liveness: &probes
+            enabled: true
+            custom: true
+            spec:
+              httpGet:
+                path: /api/version
+                port: &port 5000
+              initialDelaySeconds: 0
+              periodSeconds: 10
+              timeoutSeconds: 1
+              failureThreshold: 3
+          readiness: *probes
+          startup:
+            enabled: false
+        resources:
+          requests:
+            cpu: 500m
+            memory: 1.5Gi
+          limits:
+            memory: 3Gi
+        securityContext:
+          privileged: false
+service:
+  main:
+    ports:
+      http:
+        port: *port
+
+ingress:
+  main:
+    enabled: true
+    annotations:
+      cert-manager.io/cluster-issuer: letsencrypt-dns
+    hosts:
+      - host: frigate.otohgunga.nl
+        paths:
+          - path: /
+            service:
+              name: main
+              port: http
+    tls:
+      - secretName: frigate-otohgunga-tls
+        hosts:
+          - frigate.otohgunga.nl
+
+persistence:
+  data:
+    enabled: true
+    existingClaim: hostpath-frigate-data-pvc
+  config:
+    enabled: true
+    existingClaim: hostpath-frigate-config-pvc
+    globalMounts:
+      - path: /config
+  media:
+    enabled: true
+    existingClaim: hostpath-frigate-media-pvc
+    globalMounts:
+      - path: /media
+  cache:
+    enabled: true
+    type: emptyDir
+    medium: Memory
+    sizeLimit: 2Gi
+    globalMounts:
+      - path: /dev/shm
