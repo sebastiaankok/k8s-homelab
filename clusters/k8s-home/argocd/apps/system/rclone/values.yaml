@@ -43,7 +43,7 @@ controllers:
           # -- image repository
           repository: rclone/rclone
           # -- image tag
-          tag: 1.65
+          tag: 1.66
           # -- image pull policy
           pullPolicy:
 
