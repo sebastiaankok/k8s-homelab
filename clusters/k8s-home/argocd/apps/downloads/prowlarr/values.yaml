@@ -4,7 +4,7 @@ controllers:
       main:
         image:
           repository: ghcr.io/onedr0p/prowlarr-nightly
-          tag: 1.14.3.4322@sha256:1f9648dd7eaecc8d64fc5e95740e7565d66163b6999a2eba8da9cc8a1e767e15
+          tag: 1.15.0.4343@sha256:86fd18d9fd56ce4498a25dbc5458a347f7eb1b15cbc8ff0de31980dadaf4fb98
         env:
           PROWLARR__INSTANCE_NAME: Prowlarr
           PROWLARR__PORT: &port 9696
