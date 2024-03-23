@@ -32,7 +32,7 @@ controllers:
       gluetun:
         image:
           repository: ghcr.io/qdm12/gluetun
-          tag: latest@sha256:2a10832eacbd515e071ac6199f8272704eb0165b249f0b8aecd757c00e49575e
+          tag: latest@sha256:0996fa99fd56b156f7f3afd9051ca1b7b770814806fef3d4cccf962e75e920a0
         env:
           - name: VPN_SERVICE_PROVIDER
             value: protonvpn
