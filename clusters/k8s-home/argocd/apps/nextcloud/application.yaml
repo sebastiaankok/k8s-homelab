@@ -21,7 +21,7 @@ spec:
         exclude: '{application.yaml,values.yaml}'
     - chart: nextcloud
       repoURL: 'https://nextcloud.github.io/helm/'
-      targetRevision: 4.6.4
+      targetRevision: 4.6.8
       helm:
         releaseName: "nextcloud"
         valueFiles:
