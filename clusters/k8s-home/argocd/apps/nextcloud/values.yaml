@@ -5,7 +5,7 @@
 #    - "apk add gcompat ffmpeg"
 image:
   repository: public.ecr.aws/docker/library/nextcloud
-  tag: 28.0.5-fpm
+  tag: 29.0.0-fpm
 nextcloud:
   host: nextcloud.otohgunga.nl
   extraVolumes:
