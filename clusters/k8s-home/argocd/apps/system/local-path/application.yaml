@@ -24,7 +24,7 @@ spec:
         exclude: '{application.yaml,values.yaml}'
     - path: "deploy/chart/local-path-provisioner"
       repoURL: 'https://github.com/rancher/local-path-provisioner.git'
-      targetRevision: v0.0.26
+      targetRevision: v0.0.27
       helm:
         valueFiles:
           - $values/clusters/k8s-home/argocd/apps/system/local-path/values.yaml
