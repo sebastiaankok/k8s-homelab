@@ -37,7 +37,7 @@ spec:
         exclude: '{application.yaml,values.yaml}'
     - chart: cilium
       repoURL: 'https://helm.cilium.io/'
-      targetRevision: 1.15.5
+      targetRevision: 1.15.6
       helm:
         releaseName: "cilium"
         valueFiles:
