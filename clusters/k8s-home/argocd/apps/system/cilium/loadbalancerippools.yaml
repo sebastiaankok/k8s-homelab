@@ -4,5 +4,5 @@ kind: CiliumLoadBalancerIPPool
 metadata:
   name: "all"
 spec:
-  cidrs:
+  blocks:
   - cidr: "10.10.21.0/24"
