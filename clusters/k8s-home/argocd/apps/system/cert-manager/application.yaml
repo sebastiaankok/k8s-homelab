@@ -30,7 +30,7 @@ spec:
         exclude: '{application.yaml,values.yaml}'
     - chart: cert-manager
       repoURL: 'https://charts.jetstack.io'
-      targetRevision: v1.15.1
+      targetRevision: v1.15.3
       helm:
         releaseName: "cert-manager"
         valueFiles:
