@@ -4,7 +4,7 @@ controllers:
       main:
         image:
           repository: ghcr.io/sct/overseerr
-          tag: 8251c73ffae678c89eae2de13ee2e9a0afb8d755
+          tag: 1.33.2
         securityContext:
           runAsUser: 568
           runAsGroup: 568
