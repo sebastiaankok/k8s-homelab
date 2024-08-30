@@ -9,7 +9,7 @@ controllers:
       main:
         image:
           repository: ghcr.io/onedr0p/plex
-          tag: 1.40.4.8679-424562606@sha256:6caeca24f3b08206a94a6a9c102e2c0c14d46d5a9163241716559e8c83f53ff8
+          tag: 1.40.5.8921-836b34c27@sha256:154636521a4ea14b3b0720443e7714f53318aeacb569fc00f4221969e2978b7b
         resources:
           requests:
             cpu: 100m
