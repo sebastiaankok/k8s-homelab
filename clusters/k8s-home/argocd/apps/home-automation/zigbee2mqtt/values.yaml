@@ -53,12 +53,12 @@ persistence:
     existingClaim: hostpath-zigbee2mqtt-pvc
     globalMounts:
       - path: /data
-  config:
-    enabled: true
-    type: configMap
-    name: zigbee2mqtt-config
-    mountPath: /app/configuration.yaml
-    subPath: configuration.yaml
+  #  config:
+  #    enabled: true
+  #    type: configMap
+  #    name: zigbee2mqtt-config
+  #    mountPath: /app/configuration.yaml
+  #    subPath: configuration.yaml
   usbserial:
     enabled: true
     type: hostPath
