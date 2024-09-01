@@ -30,6 +30,7 @@ controllers:
           privileged: false
 service:
   main:
+    controller: main
     ports:
       http:
         port: *port
@@ -44,7 +45,7 @@ ingress:
         paths:
           - path: /
             service:
-              name: main
+              identifier: main
               port: http
     tls:
       - secretName: frigate-otohgunga-tls
@@ -55,6 +56,8 @@ persistence:
   data:
     enabled: true
     existingClaim: hostpath-frigate-data-pvc
+    globalMounts:
+      - path: /data
   config:
     enabled: true
     existingClaim: hostpath-frigate-config-pvc
