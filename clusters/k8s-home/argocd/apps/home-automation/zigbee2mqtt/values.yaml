@@ -23,6 +23,7 @@ controllers:
 
 service:
   main:
+    controller: main
     ports:
       http:
         port: 8080
@@ -37,7 +38,7 @@ ingress:
         paths:
           - path: /
             service:
-              name: main
+              identifier: main
               port: http
     tls:
       - secretName: zigbee2mqtt-otohgunga-tls
