@@ -2,11 +2,11 @@ apiVersion: argoproj.io/v1alpha1
 kind: Application
 metadata:
   name: plex
-  namespace: argocd 
+  namespace: argocd
   annotations:
     argocd.argoproj.io/sync-wave: "2"
 spec:
-  project: default 
+  project: default
   syncPolicy:
     automated:
       prune: true
@@ -24,7 +24,7 @@ spec:
         exclude: '{application.yaml,values.yaml}'
     - chart: app-template
       repoURL: 'https://bjw-s.github.io/helm-charts'
-      targetRevision: 2.6.0 
+      targetRevision: 3.4.0
       helm:
         releaseName: "plex"
         valueFiles:

@@ -42,6 +42,7 @@ controllers:
             memory: 4Gi
 service:
   main:
+    controller: main
     type: LoadBalancer
     loadBalancerIP: *loadBalancerIP
     externalTrafficPolicy: Local
@@ -59,7 +60,7 @@ ingress:
         paths:
           - path: /
             service:
-              name: main
+              identifier: main
               port: http
     tls:
       - hosts:
@@ -71,7 +72,6 @@ persistence:
     existingClaim: hostpath-jellyfin-pvc
     globalMounts:
       - path: /config
-
   video:
     enabled: true
     type: hostPath
