@@ -55,6 +55,7 @@ controllers:
 
 service:
   main:
+    controller: main
     enabled: false
 
 persistence:
