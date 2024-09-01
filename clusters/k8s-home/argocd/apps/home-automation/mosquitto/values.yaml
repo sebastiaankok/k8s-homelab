@@ -37,7 +37,7 @@ ingress:
           - path: /
             service:
               identifier: main
-              port: http
+              port: 8080
 
 persistence:
   data:
