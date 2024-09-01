@@ -53,7 +53,8 @@ persistence:
   config:
     enabled: true
     existingClaim: hostpath-hass-pvc
-    mountPath: /config
+    globalMounts:
+      - path: /config
   usb:
     enabled: true
     type: hostPath
