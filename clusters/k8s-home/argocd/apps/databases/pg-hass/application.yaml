@@ -8,6 +8,8 @@ metadata:
 spec:
   project: default
   syncPolicy:
+    syncOptions:
+    - ServerSideApply=true
     automated:
       prune: true
   destination:
