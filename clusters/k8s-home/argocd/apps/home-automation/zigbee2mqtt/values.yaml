@@ -48,8 +48,8 @@ ingress:
 persistence:
   data:
     enabled: true
-    accessMode: ReadWriteOnce
-    size: 1Gi
+    #accessMode: ReadWriteOnce
+    #size: 1Gi
     existingClaim: hostpath-zigbee2mqtt-pvc
     globalMounts:
       - path: /data
