@@ -28,17 +28,6 @@ controllers:
       main:
         # -- Override the container name
         nameOverride: rclone
-
-        # -- Override the default container order
-        # Containers get sorted alphanumerically by the `<order>-<identifier>` combination.
-        # @default -- 99
-        order: 1
-
-        # -- Specify if this container depends on any other containers
-        # This is used to determine the order in which the containers are rendered.
-        # The use of "dependsOn" completely disables the "order" field within the controller.
-        dependsOn: []
-
         image:
           # -- image repository
           repository: rclone/rclone
