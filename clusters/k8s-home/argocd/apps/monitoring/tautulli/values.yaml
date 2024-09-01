@@ -18,6 +18,7 @@ controllers:
 
 service:
   main:
+    controller: main
     ports:
       http:
         port: 8181
@@ -33,7 +34,7 @@ ingress:
         paths:
           - path: /
             service:
-              name: main
+              identifier: main
               port: http
     tls:
       - hosts:
