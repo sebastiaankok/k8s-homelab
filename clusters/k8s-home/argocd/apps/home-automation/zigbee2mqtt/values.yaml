@@ -50,9 +50,9 @@ persistence:
     enabled: true
     accessMode: ReadWriteOnce
     size: 1Gi
-      #existingClaim: nfs-zigbee2mqtt-pvc
     existingClaim: hostpath-zigbee2mqtt-pvc
-    mountPath: /data
+    globalMounts:
+      - path: /data
   config:
     enabled: true
     type: configMap
