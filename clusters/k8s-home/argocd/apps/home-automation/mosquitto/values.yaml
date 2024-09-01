@@ -28,8 +28,16 @@ service:
         port: 1883
 
 ingress:
-  main:
+  main: # this can now be any name you wish
     enabled: false
+    className: "ingress-nginx"
+    hosts:
+      - host: example.ingress.com
+        paths:
+          - path: /
+            service:
+              identifier: main
+              port: http
 
 persistence:
   data:
