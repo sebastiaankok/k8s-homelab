@@ -4,7 +4,7 @@ controllers:
       main:
         image:
           repository: ghcr.io/blakeblackshear/frigate
-          tag: 0.13.2
+          tag: 0.14.1
         probes:
           liveness: &probes
             enabled: true
