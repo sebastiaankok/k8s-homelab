@@ -5,12 +5,12 @@ controllers:
       # -- Suspends the CronJob
       # [[ref]](https://kubernetes.io/docs/concepts/workloads/controllers/cron-jobs/#schedule-suspension)
       # @default -- false
-      suspend:
+      suspend: false
       # -- Specifies how to treat concurrent executions of a job that is created by this cron job
       # valid values are Allow, Forbid or Replace
       concurrencyPolicy: Forbid
       # -- Sets the CronJob timezone (only works in Kubernetes >= 1.27)
-      timeZone:
+      timeZone: UTC
       # -- Sets the CronJob time when to execute your jobs
       schedule: "0 2 * * 1"
       # -- The deadline in seconds for starting the job if it misses its scheduled time for any reason
@@ -21,7 +21,7 @@ controllers:
       failedJobsHistory: 1
       # -- If this field is set, ttlSecondsAfterFinished after the Job finishes, it is eligible to
       # be automatically deleted.
-      ttlSecondsAfterFinished:
+      ttlSecondsAfterFinished: 600
       # -- Limits the number of times a failed job will be retried
       backoffLimit: 6
     containers:
@@ -45,7 +45,7 @@ controllers:
           # -- image tag
           tag: 1.67
           # -- image pull policy
-          pullPolicy:
+          pullPolicy: IfNotPresent
 
         # -- Override the command(s) for the default container
         command:
@@ -62,14 +62,17 @@ persistence:
     enabled: true
     type: hostPath
     hostPath: /data
-    mountPath: /data
+    globalMounts:
+      - path: /data
   config:
     enabled: true
     type: secret
     name: rclone-secret
-    mountPath: /root/.config/rclone/
+    globalMounts:
+      - path: /root/.config/rclone/
   script:
     enabled: true
     type: configMap
     name: rclone-script
-    mountPath: /root
+    globalMounts:
+      - path: /root
