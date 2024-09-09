@@ -13,17 +13,13 @@ data:
     _rclone /data/hass/zigbee2mqtt secret:/encrypted/hass/zigbee2mqtt
     _rclone /data/hass/mosquitto secret:/encrypted/hass/mosquitto
 
-    ## -- Nextcloud
-    _rclone /data/nextcloud/nextcloud secret:/encrypted/nextcloud/nextcloud "--exclude custom_apps/recognize/"
-
     ## -- Plex
-    _rclone /data/plex/overseerr secret:/encrypted/plex/plex "--exclude Library/Application Support/Plex Media Server/Cache/"
-    _rclone /data/plex/overseerr secret:/encrypted/plex/overseerr
-    _rclone /data/plex/prowlarr secret:/encrypted/plex/prowlarr
-    _rclone /data/plex/radarr secret:/encrypted/plex/radarr
-    _rclone /data/plex/sonarr secret:/encrypted/plex/sonarr
-    _rclone /data/plex/sabnzbd secret:/encrypted/plex/sabnzbd
-    _rclone /data/plex/tautulli secret:/encrypted/plex/tautulli
+    _rclone "/data/plex/plex/Library/Application Support/Plex Media Server/Preferences.xml" secret:/encrypted/plex/plex
+    _rclone /data/plex/overseerr/ secret:/encrypted/plex/overseerr
+    _rclone /data/plex/prowlarr/Backups secret:/encrypted/plex/prowlarr
+    _rclone /data/plex/radarr/Backups secret:/encrypted/plex/radarr
+    _rclone /data/plex/sonarr/Backups secret:/encrypted/plex/sonarr
+    _rclone /data/plex/sabnzbd/sabnzbd.ini secret:/encrypted/plex/sabnzbd
 kind: ConfigMap
 metadata:
   name: rclone-script
