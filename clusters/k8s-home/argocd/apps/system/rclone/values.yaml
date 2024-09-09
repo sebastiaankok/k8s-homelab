@@ -65,4 +65,4 @@ persistence:
     type: configMap
     name: rclone-script
     globalMounts:
-      - path: /root
+      - path: /script
