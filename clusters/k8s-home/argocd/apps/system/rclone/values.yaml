@@ -59,7 +59,7 @@ persistence:
     type: secret
     name: rclone-secret
     globalMounts:
-      - path: /root/.config/rclone/
+      - path: /config
   script:
     enabled: true
     type: configMap
