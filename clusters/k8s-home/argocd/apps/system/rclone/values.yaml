@@ -32,7 +32,7 @@ controllers:
           # -- image repository
           repository: rclone/rclone
           # -- image tag
-          tag: 1.67
+          tag: 1.68
           # -- image pull policy
           pullPolicy: IfNotPresent
 
