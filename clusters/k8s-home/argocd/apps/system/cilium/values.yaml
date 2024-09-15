@@ -1,11 +1,11 @@
 hubble:
   relay:
-    enabled: true
+    enabled: false
   ui:
-    enabled: true
+    enabled: false
     # -- hubble-ui ingress configuration.
     ingress:
-      enabled: true
+      enabled: false
       annotations:
         cert-manager.io/cluster-issuer: letsencrypt-dns
       className: ""
