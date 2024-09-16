@@ -1,0 +1,9 @@
+apiVersion: metallb.io/v1beta1
+kind: IPAddressPool
+metadata:
+  name: pool
+  namespace: kube-system
+spec:
+  addresses:
+  - 10.10.21.1/24
+  autoAssign: false
