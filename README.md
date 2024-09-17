@@ -33,3 +33,37 @@ kubectl apply --kustomize clusters/k8s-home/bootstrap
 - [ghcr.io/onedr0p](https://ghcr.io/onedr0p)
 - [ghcr.io/recyclarr/recyclarr](https://ghcr.io/recyclarr/recyclarr)
 - [ghcr.io/sct/overseerr](https://ghcr.io/sct/overseerr)
+
+## ser2net
+
+```yaml
+connection: &con01
+  enable: on
+  accepter: tcp,20108
+  connector: serialdev,/dev/serial/by-id/usb-ITead_Sonoff_Zigbee_3.0_USB_Dongle_Plus_da3c386a8212ec11915520c7bd930c07-if00-port0,115200n81,local,dtr=off,rts=off
+  options:
+    kickolduser: true
+
+connection: &con02
+  accepter: tcp,20208
+  connector: serialdev,/dev/serial/by-id/usb-FTDI_FT232R_USB_UART_AB4HWRSK-if00-port0,115200n81,local
+  options:
+    kickolduser: true
+    banner: *banner
+    telnet-brk-on-sync: true
+
+connection: &con03
+  accepter: tcp,20308
+  connector: serialdev,/dev/serial/by-id/usb-RFXCOM_RFXtrx433XL_DO7372CL-if00-port0,38400n81,local
+  options:
+    kickolduser: true
+    telnet-brk-on-sync: true
+
+connection: &con04
+  accepter: tcp,20408
+  connector: serialdev,/dev/serial/by-id/usb-Silicon_Labs_CP2102_USB_to_UART_Bridge_Controller_0001-if00-port0,9600n81,local
+  options:
+    kickolduser: true
+    banner: *banner
+    telnet-brk-on-sync: true
+```
