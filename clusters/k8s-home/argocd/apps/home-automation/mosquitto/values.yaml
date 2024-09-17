@@ -10,7 +10,7 @@ controllers:
             cpu: 5m
             memory: 10M
           limits:
-            memory: 10M
+            memory: 250M
 
 service:
   main:
