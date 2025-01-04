@@ -8,7 +8,7 @@ controllers:
       main:
         image:
           repository: ghcr.io/onedr0p/tautulli
-          tag: 2.13.4@sha256:633a57b2f8634feb67811064ec3fa52f40a70641be927fdfda6f5d91ebbd5d73
+          tag: 2.15.0@sha256:189f7b29da755a8e20da45af1e56bc9fc88d836a363da4273a52b267609511c4
         resources:
           requests:
             cpu: 5m
