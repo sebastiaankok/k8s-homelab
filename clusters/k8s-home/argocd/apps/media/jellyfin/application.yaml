@@ -23,7 +23,7 @@ spec:
       directory:
         exclude: '{application.yaml,values.yaml}'
     - chart: app-template
-      repoURL: 'https://bjw-s.github.io/helm-charts'
+      repoURL: 'https://bjw-s-labs.github.io/helm-charts'
       targetRevision: 3.6.0
       helm:
         releaseName: "jellyfin"
