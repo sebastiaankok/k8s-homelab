@@ -1,7 +1,7 @@
 apiVersion: argoproj.io/v1alpha1
 kind: Application
 metadata:
-  name: kamstrup-402
+  name: kamstrup-mqtt
   namespace: argocd
   annotations:
     argocd.argoproj.io/sync-wave: "3"
@@ -19,13 +19,13 @@ spec:
       ref: values
     - repoURL: 'git@github.com:sebastiaankok/k8s-homelab.git'
       targetRevision: main
-      path: "clusters/k8s-home/argocd/apps/home-automation/kamstrup-402/"
+      path: "clusters/k8s-home/argocd/apps/home-automation/kamstrup-mqtt/"
       directory:
         exclude: '{application.yaml,values.yaml}'
     - chart: app-template
       repoURL: 'https://bjw-s.github.io/helm-charts'
       targetRevision: 3.6.0
       helm:
-        releaseName: "kamstrup-402"
+        releaseName: "kamstrup-mqtt"
         valueFiles:
-          - $values/clusters/k8s-home/argocd/apps/home-automation/kamstrup-402/values.yaml
+          - $values/clusters/k8s-home/argocd/apps/home-automation/kamstrup-mqtt/values.yaml

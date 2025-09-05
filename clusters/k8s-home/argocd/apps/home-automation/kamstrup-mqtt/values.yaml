@@ -25,13 +25,6 @@ service:
 ingress:
   main:
     enabled: false
-    hosts:
-      - host: example.ingress.com
-        paths:
-          - path: /
-            service:
-              identifier: main
-              port: 8080
 
 persistence:
   config:
@@ -43,7 +36,7 @@ persistence:
         main:
           - path: /opt/kamstrup/config.yaml
             subPath: config.yaml
-  usbserial:
+  serialdevice:
     enabled: true
     type: hostPath
-    hostPath: /dev/serial/by-id/usb-Silicon_Labs_CP2102_USB_to_UART_Bridge_Controller_0001-if00-port0
+    hostPath: /dev/ser2net/kamstrup-serial
