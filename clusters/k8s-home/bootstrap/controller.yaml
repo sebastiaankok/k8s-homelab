@@ -6,8 +6,8 @@ metadata:
 spec:
   project: default
   source:
-    repoURL: 'git@github.com:sebastiaankok/k8s-homelab.git'
-    path: 'clusters/k8s-home/argocd/apps'
+    repoURL: 'https://github.com/sebastiaankok/k8s-homelab.git'
+    path: 'clusters/k8s-home/argocd/apps/home-automation'
     targetRevision: HEAD
     directory:
       recurse: true
@@ -15,7 +15,6 @@ spec:
       jsonnet: {}
   destination:
     name: in-cluster
-    server:
     namespace: argocd
   syncPolicy:
     automated:

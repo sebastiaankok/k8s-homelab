@@ -14,12 +14,12 @@ spec:
     name: in-cluster
     namespace: plex
   sources:
-    - repoURL: 'git@github.com:sebastiaankok/k8s-homelab.git'
+    - repoURL: 'https://github.com/sebastiaankok/k8s-homelab.git'
       targetRevision: main
       path: "clusters/k8s-home/argocd/apps/downloads/recyclarr/"
       directory:
         exclude: '{application.yaml,values.yaml}'
-    - repoURL: 'git@github.com:sebastiaankok/k8s-homelab.git'
+    - repoURL: 'https://github.com/sebastiaankok/k8s-homelab.git'
       targetRevision: main
       ref: values
     - chart: app-template

@@ -14,7 +14,7 @@ spec:
     name: in-cluster
     namespace: plex
   sources:
-    - repoURL: 'git@github.com:sebastiaankok/k8s-homelab.git'
+    - repoURL: 'https://github.com/sebastiaankok/k8s-homelab.git'
       targetRevision: main
       path: "clusters/k8s-home/argocd/apps/downloads/prowlarr/"
       directory:
@@ -26,6 +26,6 @@ spec:
         releaseName: "prowlarr"
         valueFiles:
           - $values/clusters/k8s-home/argocd/apps/downloads/prowlarr/values.yaml
-    - repoURL: 'git@github.com:sebastiaankok/k8s-homelab.git'
+    - repoURL: 'https://github.com/sebastiaankok/k8s-homelab.git'
       targetRevision: main
       ref: values

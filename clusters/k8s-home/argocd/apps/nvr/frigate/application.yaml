@@ -14,10 +14,10 @@ spec:
     name: in-cluster
     namespace: nvr
   sources:
-    - repoURL: 'git@github.com:sebastiaankok/k8s-homelab.git'
+    - repoURL: 'https://github.com/sebastiaankok/k8s-homelab.git'
       targetRevision: main
       ref: values
-    - repoURL: 'git@github.com:sebastiaankok/k8s-homelab.git'
+    - repoURL: 'https://github.com/sebastiaankok/k8s-homelab.git'
       targetRevision: main
       path: "clusters/k8s-home/argocd/apps/nvr/frigate/"
       directory:

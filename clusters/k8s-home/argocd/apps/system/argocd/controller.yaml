@@ -6,7 +6,7 @@ metadata:
 spec:
   project: default
   source:
-    repoURL: 'git@github.com:sebastiaankok/k8s-homelab.git'
+    repoURL: 'https://github.com/sebastiaankok/k8s-homelab.git'
     path: 'clusters/k8s-home/argocd/apps'
     targetRevision: HEAD
     directory:
