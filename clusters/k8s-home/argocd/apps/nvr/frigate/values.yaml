@@ -4,7 +4,7 @@ controllers:
       main:
         image:
           repository: ghcr.io/blakeblackshear/frigate
-          tag: 0.14.1
+          tag: 0.15.2
         probes:
           liveness: &probes
             enabled: true
@@ -27,7 +27,7 @@ controllers:
           limits:
             memory: 5Gi
         securityContext:
-          privileged: false
+          privileged: true
 service:
   main:
     controller: main
@@ -76,3 +76,9 @@ persistence:
     sizeLimit: 2Gi
     globalMounts:
       - path: /dev/shm
+  renderD128:
+    enabled: true
+    type: hostPath
+    hostPath: /dev/dri/renderD128
+    globalMounts:
+      - path: /dev/dri/renderD128
