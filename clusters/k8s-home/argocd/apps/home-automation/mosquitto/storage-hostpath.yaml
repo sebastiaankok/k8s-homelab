@@ -12,7 +12,7 @@ spec:
     - ReadWriteOnce
   persistentVolumeReclaimPolicy: Retain
   hostPath:
-    path: "/data/hass/mosquitto"
+    path: "/data/mosquitto"
 ---
 apiVersion: v1
 kind: PersistentVolumeClaim

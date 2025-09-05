@@ -4,7 +4,7 @@ controllers:
       main:
         image:
           repository: public.ecr.aws/docker/library/eclipse-mosquitto
-          tag: 2.0.20
+          tag: 2.0.22
         resources:
           requests:
             cpu: 5m
