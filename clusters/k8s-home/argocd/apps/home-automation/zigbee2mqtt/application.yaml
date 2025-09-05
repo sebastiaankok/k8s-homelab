@@ -12,7 +12,7 @@ spec:
       prune: true
   destination:
     name: in-cluster
-    namespace: hass
+    namespace: home-automation
   sources:
     - repoURL: 'https://github.com/sebastiaankok/k8s-homelab.git'
       targetRevision: main

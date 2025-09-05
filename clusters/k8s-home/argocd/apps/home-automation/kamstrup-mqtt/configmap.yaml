@@ -2,7 +2,7 @@ apiVersion: v1
 kind: ConfigMap
 metadata:
   name: kamstrup-config
-  namespace: hass
+  namespace: home-automation
 data:
   config.yaml: |
     mqtt:
