@@ -7,7 +7,7 @@ controllers:
       main:
         image:
           repository: koenkk/zigbee2mqtt
-          tag: 2.6.0
+          tag: 2.6.1
         env:
           TZ: UTC
           ZIGBEE2MQTT_DATA: /data
