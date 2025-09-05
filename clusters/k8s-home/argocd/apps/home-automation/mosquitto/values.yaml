@@ -12,8 +12,8 @@ controllers:
           limits:
             memory: 250M
         securityContext:
-          runAsUser: 65534
-          runAsGroup: 65534
+          runAsUser: 1005
+          runAsGroup: 1005
 
 service:
   main:
