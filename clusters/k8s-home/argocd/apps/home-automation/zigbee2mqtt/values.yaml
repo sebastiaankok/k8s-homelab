@@ -6,8 +6,8 @@ controllers:
     containers:
       main:
         image:
-          repository: ghcr.io/koenkk/zigbee2mqtt
-          tag: 2.0.0@sha256:6105a3a01a66bbfb98909a7c309d0707ec7b41728ac15d399747077225231545
+          repository: koenkk/zigbee2mqtt
+          tag: 2.6.0
         env:
           TZ: UTC
           ZIGBEE2MQTT_DATA: /data
@@ -60,7 +60,3 @@ persistence:
   #    name: zigbee2mqtt-config
   #    mountPath: /app/configuration.yaml
   #    subPath: configuration.yaml
-  usbserial:
-    enabled: true
-    type: hostPath
-    hostPath: /dev/serial/by-id/usb-ITead_Sonoff_Zigbee_3.0_USB_Dongle_Plus_da3c386a8212ec11915520c7bd930c07-if00-port0
