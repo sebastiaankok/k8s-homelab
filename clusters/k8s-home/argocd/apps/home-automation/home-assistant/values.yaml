@@ -4,7 +4,7 @@ controllers:
       main:
         image:
           repository: ghcr.io/home-assistant/home-assistant
-          tag: 2025.1.1
+          tag: 2025.8.0
         env:
           TZ: UTC
         probes:
@@ -19,9 +19,6 @@ controllers:
             cpu: 10m
           limits:
             memory: 1Gi
-        securityContext:
-          privileged: true
-          capabilities: { drop: ["ALL"] }
 
 service:
   main:
@@ -56,23 +53,3 @@ persistence:
     existingClaim: hostpath-hass-pvc
     globalMounts:
       - path: /config
-  usb:
-    enabled: true
-    type: hostPath
-    hostPath: /dev/serial/by-id/
-  usb0:
-    enabled: true
-    type: hostPath
-    hostPath: /dev/ttyUSB0
-  usb1:
-    enabled: true
-    type: hostPath
-    hostPath: /dev/ttyUSB1
-  usb2:
-    enabled: true
-    type: hostPath
-    hostPath: /dev/ttyUSB2
-  usb3:
-    enabled: true
-    type: hostPath
-    hostPath: /dev/ttyUSB3
