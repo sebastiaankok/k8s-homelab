@@ -19,6 +19,7 @@ service:
   main:
     controller: main
     type: LoadBalancer
+    loadBalancerIP: 10.10.21.5
     externalTrafficPolicy: Local
     ports:
       http:
