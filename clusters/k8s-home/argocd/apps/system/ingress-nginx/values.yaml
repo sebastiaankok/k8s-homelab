@@ -4,6 +4,6 @@ controller:
   watchIngressWithoutClass: true
   service:
     externalTrafficPolicy: Local
-    loadBalancerIP: 10.10.21.80
+    loadBalancerIP: 10.10.21.30
   config:
-    disable-access-log: "true"
+    disable-access-log: "false"
