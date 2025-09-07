@@ -1,7 +1,7 @@
 apiVersion: argoproj.io/v1alpha1
 kind: Application
 metadata:
-  name: repo-controller
+  name: home-automation-ctrl
   namespace: argocd
 spec:
   project: default
@@ -16,7 +16,8 @@ spec:
   destination:
     name: in-cluster
     namespace: argocd
-  syncPolicy:
-    automated:
-      prune: true
-      selfHeal: true
+  syncPolicy: {}
+  # syncPolicy:
+  #   automated:
+  #     prune: true
+  #     selfHeal: true
