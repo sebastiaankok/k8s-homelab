@@ -10,6 +10,8 @@ controllers:
         securityContext:
           privileged: true
           capabilities: { drop: ["ALL"] }
+          runAsUser: 1003
+          runAsGroup: 1003
         resources:
           requests:
             cpu: 10m
