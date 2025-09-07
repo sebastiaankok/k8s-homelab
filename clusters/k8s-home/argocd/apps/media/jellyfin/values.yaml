@@ -65,7 +65,7 @@ ingress:
     tls:
       - hosts:
           - *host
-        secretName: "jellyfin-otohgunga-tls"
+        secretName: "jellyfin-https-tls"
 persistence:
   config:
     enabled: true

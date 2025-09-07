@@ -42,7 +42,7 @@ ingress:
               identifier: main
               port: http
     tls:
-      - secretName: zigbee2mqtt-otohgunga-tls
+      - secretName: zigbee2mqtt-https-tls
         hosts:
           - zigbee2mqtt.example.com
 

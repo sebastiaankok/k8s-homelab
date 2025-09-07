@@ -61,4 +61,4 @@ ingress:
     tls:
       - hosts:
           - "sonarr.example.com"
-        secretName: "sonarr-otohgunga-tls"
+        secretName: "sonarr-https-tls"

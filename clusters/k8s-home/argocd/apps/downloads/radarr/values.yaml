@@ -60,4 +60,4 @@ ingress:
     tls:
       - hosts:
           - "radarr.example.com"
-        secretName: "radarr-otohgunga-tls"
+        secretName: "radarr-https-tls"

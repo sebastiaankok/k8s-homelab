@@ -46,7 +46,7 @@ ingress:
     tls:
       - hosts:
           - "plex.example.com"
-        secretName: "plex-otohgunga-tls"
+        secretName: "plex-https-tls"
 
 persistence:
   config:

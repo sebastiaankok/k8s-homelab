@@ -39,7 +39,7 @@ ingress:
     tls:
       - hosts:
           - "tautulli.example.com"
-        secretName: "tautulli-otohgunga-tls"
+        secretName: "tautulli-https-tls"
 
 persistence:
   config:

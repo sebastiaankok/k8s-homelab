@@ -49,7 +49,7 @@ ingress:
               identifier: main
               port: http
     tls:
-      - secretName: frigate-otohgunga-tls
+      - secretName: frigate-https-tls
         hosts:
           - frigate.example.com
 

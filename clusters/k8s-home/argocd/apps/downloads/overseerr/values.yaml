@@ -46,4 +46,4 @@ ingress:
     tls:
       - hosts:
           - "overseerr.example.com"
-        secretName: "overseerr-otohgunga-tls"
+        secretName: "overseerr-https-tls"

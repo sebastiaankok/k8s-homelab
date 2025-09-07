@@ -57,7 +57,7 @@ ingress:
     tls:
       - hosts:
           - "sabnzbd.example.com"
-        secretName: "sabnzbd-otohgunga-tls"
+        secretName: "sabnzbd-https-tls"
 
 persistence:
   config:

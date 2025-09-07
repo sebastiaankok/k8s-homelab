@@ -105,4 +105,4 @@ ingress:
     tls:
       - hosts:
           - "prowlarr.example.com"
-        secretName: "prowlarr-otohgunga-tls"
+        secretName: "prowlarr-https-tls"

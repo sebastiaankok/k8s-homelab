@@ -45,7 +45,7 @@ ingress:
     tls:
       - hosts:
           - hass.example.com
-        secretName: hass-otohgunga-tls
+        secretName: hass-https-tls
 
 persistence:
   config:
