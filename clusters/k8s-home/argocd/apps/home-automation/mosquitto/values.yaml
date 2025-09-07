@@ -19,10 +19,8 @@ service:
   main:
     controller: main
     type: LoadBalancer
-    loadBalancerIP: 10.10.21.30
+    loadBalancerIP: 10.10.21.35
     externalTrafficPolicy: Local
-    #annotations:
-    #  metallb.io/allow-shared-ip: "k8s-home"
     ports:
       http:
         enabled: false
