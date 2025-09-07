@@ -19,29 +19,17 @@ service:
   main:
     controller: main
     type: LoadBalancer
-    loadBalancerIP: 10.10.21.81
-    annotations:
-      io.cilium/lb-ipam-ips: "10.10.21.81"
     externalTrafficPolicy: Local
     ports:
       http:
         enabled: false
-        port: 8080
       mqtt:
         enabled: true
         port: 1883
 
 ingress:
-  main: # this can now be any name you wish
+  main:
     enabled: false
-    className: "ingress-nginx"
-    hosts:
-      - host: example.ingress.com
-        paths:
-          - path: /
-            service:
-              identifier: main
-              port: 8080
 
 persistence:
   data:
