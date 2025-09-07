@@ -1,11 +1,11 @@
-apiVersion: metallb.io/v1beta1
-kind: L2Advertisement
-metadata:
-  name: pool
-  namespace: kube-system
-spec:
-  ipAddressPools:
-  - pool
-  nodeSelectors:
-  - matchLabels:
-      kubernetes.io/hostname: k3s-homelab
+#apiVersion: metallb.io/v1beta1
+#kind: L2Advertisement
+#metadata:
+#  name: pool
+#  namespace: kube-system
+#spec:
+#  ipAddressPools:
+#  - pool
+#  nodeSelectors:
+#  - matchLabels:
+#      kubernetes.io/hostname: k3s-homelab
