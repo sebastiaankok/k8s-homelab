@@ -23,6 +23,7 @@ service:
     ports:
       http:
         enabled: false
+        port: 8080
       mqtt:
         enabled: true
         port: 1883
