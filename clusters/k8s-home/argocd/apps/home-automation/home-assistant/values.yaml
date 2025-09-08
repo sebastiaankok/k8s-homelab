@@ -3,7 +3,8 @@ controllers:
     containers:
       app:
         image:
-          repository: ghcr.io/home-assistant/home-assistant
+          #repository: ghcr.io/home-assistant/home-assistant
+          repository: ghcr.io/home-operations/home-assistant
           tag: 2025.8.0
         resources:
           requests:
