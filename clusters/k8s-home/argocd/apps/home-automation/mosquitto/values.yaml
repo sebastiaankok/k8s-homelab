@@ -14,6 +14,11 @@ controllers:
         securityContext:
           runAsUser: 1005
           runAsGroup: 1005
+          allowPrivilegeEscalation: false
+          readOnlyRootFilesystem: true
+          capabilities:
+            drop:
+              - ALL
 
 service:
   app:
