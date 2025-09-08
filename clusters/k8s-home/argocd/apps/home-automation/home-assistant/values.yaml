@@ -1,50 +1,49 @@
 controllers:
-  main:
+  home-assistant:
     containers:
-      main:
+      app:
         image:
           repository: ghcr.io/home-assistant/home-assistant
           tag: 2025.8.0
-        env:
-          TZ: UTC
-        probes:
-          liveness:
-            enabled: false
-          readiness:
-            enabled: false
-          startup:
-            enabled: false
         resources:
           requests:
             cpu: 10m
+            memory: 250Mi
           limits:
             memory: 1Gi
-
+        securityContext:
+          runAsUser: 1001
+          runAsGroup: 1001
+          allowPrivilegeEscalation: false
+          readOnlyRootFilesystem: true
+          capabilities:
+            drop:
+              - ALL
 service:
-  main:
-    controller: main
+  app:
+    controller: home-assistant
     ports:
       http:
         port: 8123
 
 ingress:
-  main:
+  app:
     enabled: true
     className: nginx
     annotations:
       cert-manager.io/cluster-issuer: letsencrypt-dns
       nginx.org/websocket-services: home-assistant
     hosts:
-      - host: hass.example.com
+      - host: hass.otohogunga.nl
         paths:
           - path: /
             service:
-              identifier: main
+              identifier: app
               port: http
             pathType: Prefix
     tls:
       - hosts:
-          - hass.example.com
+          - hass.otohogunga.nl
         secretName: hass-https-tls
 
 persistence:

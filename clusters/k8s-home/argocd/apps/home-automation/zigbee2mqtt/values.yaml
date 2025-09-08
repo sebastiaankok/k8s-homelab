@@ -1,19 +1,20 @@
 controllers:
-  main:
-    annotations:
-      reloader.stakater.com/auto: "true"
-      backup.velero.io/backup-volumes: data
+  zigbee2mqtt:
     containers:
-      main:
+      app:
         image:
           repository: koenkk/zigbee2mqtt
           tag: 2.6.0
         env:
-          TZ: UTC
           ZIGBEE2MQTT_DATA: /data
         securityContext:
-          privileged: true
-          capabilities: { drop: ["ALL"] }
+          runAsUser: 1004
+          runAsGroup: 1004
+          allowPrivilegeEscalation: false
+          readOnlyRootFilesystem: true
+          capabilities:
+            drop:
+              - ALL
         resources:
           requests:
             cpu: 10m
@@ -22,20 +23,20 @@ controllers:
             memory: 512Mi
 
 service:
-  main:
+  app:
     controller: main
     ports:
       http:
         port: 8080
 
 ingress:
-  main:
+  app:
     enabled: true
     className: nginx
     annotations:
       cert-manager.io/cluster-issuer: letsencrypt-dns
     hosts:
-      - host: zigbee2mqtt.example.com
+      - host: zigbee2mqtt.otohgunga.nl
         paths:
           - path: /
             service:
@@ -44,19 +45,11 @@ ingress:
     tls:
       - secretName: zigbee2mqtt-https-tls
         hosts:
-          - zigbee2mqtt.example.com
+          - zigbee2mqtt.otohgunga.nl
 
 persistence:
   data:
     enabled: true
-    #accessMode: ReadWriteOnce
-    #size: 1Gi
     existingClaim: hostpath-zigbee2mqtt-pvc
     globalMounts:
       - path: /data
-  #  config:
-  #    enabled: true
-  #    type: configMap
-  #    name: zigbee2mqtt-config
-  #    mountPath: /app/configuration.yaml
-  #    subPath: configuration.yaml

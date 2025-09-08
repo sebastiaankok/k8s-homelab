@@ -1,17 +1,18 @@
 controllers:
-  main:
+  kamstrup-mqtt:
     containers:
-      main:
+      app:
         image:
           repository: ghcr.io/sebastiaankok/kamstrup-402-mqtt
           tag: 900ec8a4dddd97e6216989765f74a601c71a8b7b
-        env:
-          TZ: UTC
         securityContext:
-          privileged: true
-          capabilities: { drop: ["ALL"] }
           runAsUser: 1003
           runAsGroup: 1003
+          allowPrivilegeEscalation: false
+          readOnlyRootFilesystem: true
+          capabilities:
+            drop:
+              - ALL
         resources:
           requests:
             cpu: 10m
@@ -19,13 +20,20 @@ controllers:
           limits:
             memory: 512Mi
 
+      socat:
+        image: alpine/socat
+        command:
+          - socat
+        args:
+          - "pty,raw,echo=0,link=/dev/ser2net/kamstrup-serial,mode=0660,owner=1003"
+          - "tcp:rpi4-ser2net.otohgunga.nl:20408"
+
 service:
-  main:
-    controller: main
+  app:
     enabled: false
 
 ingress:
-  main:
+  app:
     enabled: false
 
 persistence:
@@ -34,11 +42,12 @@ persistence:
     type: configMap
     name: kamstrup-config
     advancedMounts:
-      main:
-        main:
+      kamstrup-mqtt:
+        app:
           - path: /opt/kamstrup/config.yaml
             subPath: config.yaml
-  serialdevice:
+  serial-socket:
     enabled: true
-    type: hostPath
-    hostPath: /dev/ser2net/kamstrup-serial
+    type: emptyDir
+    globalMounts:
+      - path: /dev/ser2net
