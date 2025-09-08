@@ -53,3 +53,11 @@ persistence:
     existingClaim: hostpath-hass-pvc
     globalMounts:
       - path: /config
+
+  tmpfs:
+    type: emptyDir
+    advancedMounts:
+      home-assistant:
+        app:
+          - path: /tmp
+            subPath: hass-tmp
