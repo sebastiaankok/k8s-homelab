@@ -1,7 +1,7 @@
 controllers:
-  main:
+  mosquitto:
     containers:
-      main:
+      app:
         image:
           repository: public.ecr.aws/docker/library/eclipse-mosquitto
           tag: 2.0.22
@@ -16,8 +16,7 @@ controllers:
           runAsGroup: 1005
 
 service:
-  main:
-    controller: main
+  app:
     type: LoadBalancer
     loadBalancerIP: 10.10.21.35
     externalTrafficPolicy: Local
@@ -30,21 +29,21 @@ service:
         port: 1883
 
 ingress:
-  main:
+  app:
     enabled: false
 
 persistence:
   data:
     existingClaim: hostpath-mosquitto-pvc
     advancedMounts:
-      main:
-        main:
+      app:
+        app:
           - path: /mosquitto/data
   mosquitto-configfile:
     type: configMap
     name: mosquitto-config
     advancedMounts:
-      main:
-        main:
+      app:
+        app:
           - path: /mosquitto/config/mosquitto.conf
             subPath: mosquitto.conf
