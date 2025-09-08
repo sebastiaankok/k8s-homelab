@@ -36,14 +36,14 @@ persistence:
   data:
     existingClaim: hostpath-mosquitto-pvc
     advancedMounts:
-      app:
+      mosquitto:
         app:
           - path: /mosquitto/data
   mosquitto-configfile:
     type: configMap
     name: mosquitto-config
     advancedMounts:
-      app:
+      mosquitto:
         app:
           - path: /mosquitto/config/mosquitto.conf
             subPath: mosquitto.conf
