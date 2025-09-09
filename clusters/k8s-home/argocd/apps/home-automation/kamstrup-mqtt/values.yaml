@@ -9,7 +9,7 @@ controllers:
           runAsUser: 1003
           runAsGroup: 1003
           allowPrivilegeEscalation: false
-          readOnlyRootFilesystem: false
+          readOnlyRootFilesystem: true
           capabilities:
             drop:
               - ALL
@@ -19,37 +19,6 @@ controllers:
             memory: 128Mi
           limits:
             memory: 512Mi
-        command:
-          - /bin/bash
-          - -c
-        args:
-          - |
-            echo "Waiting for socket..."
-            until [ -L /opt/kamstrup/serial/ser2net.sock ]; do
-              sleep 2
-            done
-            sleep 5
-            echo "Socket found, starting app"
-            python /opt/kamstrup/daemon.py
-      socat:
-        image:
-          repository: alpine/socat
-          tag: 1.8.0.3
-        command:
-          - socat
-        args:
-         - "pty,raw,echo=0,link=/opt/kamstrup/serial/ser2net.sock,mode=0660,owner=1003"
-         - "tcp:rpi4-ser2net.otohgunga.nl:20408"
-
-        #securityContext:
-        #  runAsUser: 1003
-        #  runAsGroup: 1003
-        #  allowPrivilegeEscalation: false
-        #  readOnlyRootFilesystem: true
-        #  capabilities:
-        #    drop:
-        #      - ALL
-
 
 service:
   app:
@@ -74,3 +43,14 @@ persistence:
     type: emptyDir
     globalMounts:
       - path: /opt/kamstrup/serial
+
+  # -- Temporarily hack until code fixed
+  hack:
+    enabled: true
+    type: configMap
+    name: kamstrup-hack
+    advancedMounts:
+      kamstrup-mqtt:
+        app:
+          - path: /opt/kamstrup/kamstrup_meter.py
+            subPath: kamstrup_meter.py
