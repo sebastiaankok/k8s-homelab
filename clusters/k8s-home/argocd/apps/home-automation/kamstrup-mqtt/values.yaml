@@ -9,7 +9,7 @@ controllers:
           runAsUser: 1003
           runAsGroup: 1003
           allowPrivilegeEscalation: false
-          readOnlyRootFilesystem: true
+          readOnlyRootFilesystem: false
           capabilities:
             drop:
               - ALL
@@ -25,9 +25,10 @@ controllers:
         args:
           - |
             echo "Waiting for socket..."
-            until [ -S /dev/pts/0 ]; do
+            until [ -L /opt/kamstrup/serial/ser2net.sock ]; do
               sleep 2
             done
+            sleep 5
             echo "Socket found, starting app"
             python /opt/kamstrup/daemon.py
       socat:
@@ -37,17 +38,17 @@ controllers:
         command:
           - socat
         args:
-         - "pty,raw,echo=0,link=/dev/ser2net/kamstrup-serial,mode=0660,owner=1003"
+         - "pty,raw,echo=0,link=/opt/kamstrup/serial/ser2net.sock,mode=0660,owner=1003"
          - "tcp:rpi4-ser2net.otohgunga.nl:20408"
 
-        securityContext:
-          runAsUser: 1003
-          runAsGroup: 1003
-          allowPrivilegeEscalation: false
-          readOnlyRootFilesystem: true
-          capabilities:
-            drop:
-              - ALL
+        #securityContext:
+        #  runAsUser: 1003
+        #  runAsGroup: 1003
+        #  allowPrivilegeEscalation: false
+        #  readOnlyRootFilesystem: true
+        #  capabilities:
+        #    drop:
+        #      - ALL
 
 
 service:
@@ -72,4 +73,4 @@ persistence:
     enabled: true
     type: emptyDir
     globalMounts:
-      - path: /dev/ser2net
+      - path: /opt/kamstrup/serial

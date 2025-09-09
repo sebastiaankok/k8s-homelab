@@ -16,7 +16,7 @@ data:
         username: user1
         password: changeit
     serial_device:
-        com_port: /dev/pts/0
+        com_port: serial/ser2net.sock
     kamstrup:
         parameters:
         - energy
