@@ -16,7 +16,7 @@ data:
         username: user1
         password: changeit
     serial_device:
-        com_port: serial/ser2net.sock
+        com_port: "socket://rpi4-ser2net.otohgunga.nl:20408"
     kamstrup:
         parameters:
         - energy
