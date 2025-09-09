@@ -84,15 +84,6 @@ persistence:
     sizeLimit: 128Mi
     globalMounts:
       - path: /dev/shm
-  kopia-ignore:
-    enabled: true
-    type: configMap
-    name: kopia-ignore
-    advancedMounts:
-      frigate:
-        app:
-          - path: /data/.kopiaignore
-            subPath: .kopiaignore
 
   ## -- To enable GPU
   # renderD128:

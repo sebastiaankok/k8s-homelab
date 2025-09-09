@@ -10,16 +10,3 @@ spec:
   template:
     includedNamespaces:
     - frigate
----
-apiVersion: v1
-kind: ConfigMap
-metadata:
-  name: kopia-ignore
-  namespace: frigate
-data:
-  .kopiaignore: |
-    /clips/*
-    /frigate/*
-    /model_cache/*
-    /exports/*
-    .*
