@@ -1,7 +1,6 @@
 apiVersion: velero.io/v1
 kind: Schedule
 metadata:
-  generation: 2
   name: frigate
   namespace: velero
 spec:
