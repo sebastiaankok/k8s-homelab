@@ -40,7 +40,7 @@ ingress:
         paths:
           - path: /
             service:
-              identifier: main
+              identifier: app
               port: http
     tls:
       - secretName: zigbee2mqtt-https-tls
