@@ -1,0 +1,33 @@
+apiVersion: argoproj.io/v1alpha1
+kind: Application
+metadata:
+  name: volsync
+  namespace: argocd
+  annotations:
+    argocd.argoproj.io/sync-wave: "1"
+spec:
+  project: default
+  syncPolicy:
+    automated:
+      prune: true
+    syncOptions:
+    - CreateNamespace=true
+  destination:
+    name: in-cluster
+    namespace: volsync
+  sources:
+    - repoURL: 'https://github.com/sebastiaankok/k8s-homelab.git'
+      targetRevision: main
+      ref: values
+    - repoURL: 'https://github.com/sebastiaankok/k8s-homelab.git'
+      targetRevision: main
+      path: "clusters/k8s-home/argocd/apps/system/volsync/"
+      directory:
+        exclude: '{application.yaml,values.yaml}'
+    - chart: volsync
+      repoURL: 'https://backube.github.io/helm-charts/'
+      targetRevision: "0.13.0"
+      helm:
+        releaseName: "volsync"
+        valueFiles:
+          - $values/clusters/k8s-home/argocd/apps/system/volsync/values.yaml
