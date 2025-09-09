@@ -18,7 +18,7 @@ apiVersion: v1
 kind: PersistentVolumeClaim
 metadata:
   name: hostpath-frigate-data-pvc
-  namespace: nvr
+  namespace: frigate
 spec:
   storageClassName: hostpath-frigate-data
   accessModes:
