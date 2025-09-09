@@ -1,28 +1,38 @@
 apiVersion: v1
 kind: PersistentVolume
 metadata:
-  name: hostpath-frigate-config-pv
+  name: local-frigate-pv
   namespace: frigate
 spec:
   capacity:
     storage: 1Gi
   volumeMode: Filesystem
-  storageClassName: hostpath-frigate-config
+  storageClassName: local-frigate
   accessModes:
     - ReadWriteOnce
   persistentVolumeReclaimPolicy: Retain
-  hostPath:
-    path: "/data/frigate"
+  local:
+    path: /data/frigate
+  nodeAffinity:
+    required:
+      nodeSelectorTerms:
+        - matchExpressions:
+            - key: kubernetes.io/hostname
+              operator: In
+              values:
+                - k3s-home
+
 ---
 apiVersion: v1
 kind: PersistentVolumeClaim
 metadata:
-  name: hostpath-frigate-config-pvc
+  name: local-frigate-pvc
   namespace: frigate
 spec:
-  storageClassName: hostpath-frigate-config
+  storageClassName: local-frigate
   accessModes:
     - ReadWriteOnce
   resources:
     requests:
       storage: 1Gi
+

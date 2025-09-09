@@ -94,24 +94,11 @@ ingress:
 persistence:
   data:
     enabled: true
-    #existingClaim: hostpath-frigate-data-pvc
-    existingClaim: hostpath-frigate-pvc
+    existingClaim: local-frigate-pvc
     globalMounts:
       - path: /data
       - path: /config
       - path: /media
-  #config:
-  #  enabled: true
-  #  existingClaim: hostpath-frigate-config-pvc
-  #  #existingClaim: hostpath-frigate-pvc
-  #  globalMounts:
-  #    - path: /config
-  #media:
-  #  enabled: true
-  #  existingClaim: hostpath-frigate-media-pvc
-  #  #existingClaim: hostpath-frigate-pvc
-  #  globalMounts:
-  #    - path: /media
   cache:
     enabled: true
     type: emptyDir
