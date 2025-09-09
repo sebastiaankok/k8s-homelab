@@ -1,3 +1,4 @@
+# yaml-language-server: $schema=https://raw.githubusercontent.com/bjw-s-labs/helm-charts/refs/heads/main/charts/library/common/values.schema.json
 controllers:
   frigate:
     pod:
@@ -12,37 +13,6 @@ controllers:
         envFrom:
           - secretRef:
               name: camera-rtsp-config
-        # env:
-        #   FRIGATE_RTSP_ARENTI_USER:
-        #     valueFrom:
-        #       secretKeyRef:
-        #         name: camera-rtsp-config
-        #         key: FRIGATE_RTSP_ARENTI_USER
-        #   FRIGATE_RTSP_ARENTI_PASS:
-        #     valueFrom:
-        #       secretKeyRef:
-        #         name: camera-rtsp-config
-        #         key: FRIGATE_RTSP_ARENTI_PASS
-        #   FRIGATE_RTSP_ARENTI2_USER:
-        #     valueFrom:
-        #       secretKeyRef:
-        #         name: camera-rtsp-config
-        #         key: FRIGATE_RTSP_ARENTI2_USER
-        #   FRIGATE_RTSP_ARENTI2_PASS:
-        #     valueFrom:
-        #       secretKeyRef:
-        #         name: camera-rtsp-config
-        #         key: FRIGATE_RTSP_ARENTI2_PASS
-        #   FRIGATE_RTSP_DOORBELL_USER:
-        #     valueFrom:
-        #       secretKeyRef:
-        #         name: camera-rtsp-config
-        #         key: FRIGATE_RTSP_DOORBELL_USER
-        #   FRIGATE_RTSP_DOORBELL_PASS:
-        #     valueFrom:
-        #       secretKeyRef:
-        #         name: camera-rtsp-config
-        #         key: FRIGATE_RTSP_DOORBELL_PASS
         probes:
           liveness: &probes
             enabled: true
@@ -64,6 +34,7 @@ controllers:
             memory: 1.5Gi
           limits:
             memory: 5Gi
+        # TODO: We should find a way to increase security here
         securityContext:
           # runAsUser: 1002
           # runAsGroup: 1002
@@ -122,6 +93,8 @@ persistence:
         app:
           - path: /data/.kopiaignore
             subPath: .kopiaignore
+
+  ## -- To enable GPU
   # renderD128:
   #   enabled: true
   #   type: hostPath
