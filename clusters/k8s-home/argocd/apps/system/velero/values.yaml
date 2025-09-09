@@ -15,6 +15,16 @@ configuration:
         key: cloud
       accessMode: ReadWrite
 
+  # VolumeSnapshotLocation(s) (optional, if using CSI snapshots)
+  volumeSnapshotLocation:
+    - name: default
+      provider: aws
+      config:
+        region: eu-central-003
+      credential:
+        name: velero-b2-credentials
+        key: cloud
+
   defaultBackupStorageLocation: b2
   defaultVolumesToFsBackup: true
   fsBackupTimeout: 4h
