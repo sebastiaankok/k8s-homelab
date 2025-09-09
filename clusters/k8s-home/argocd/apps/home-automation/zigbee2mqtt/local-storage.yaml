@@ -1,0 +1,41 @@
+apiVersion: v1
+kind: PersistentVolume
+metadata:
+  name: local-zigbee2mqtt-pv
+  namespace: home-automation
+  labels:
+    app.kubernetes.io/name: zigbee2mqtt
+spec:
+  capacity:
+    storage: 1Gi
+  volumeMode: Filesystem
+  storageClassName: local-zigbee2mqtt
+  accessModes:
+    - ReadWriteOnce
+  persistentVolumeReclaimPolicy: Retain
+  local:
+    path: "/data/zigbee2mqtt"
+  nodeAffinity:
+    required:
+      nodeSelectorTerms:
+        - matchExpressions:
+            - key: kubernetes.io/hostname
+              operator: In
+              values:
+                - k3s-home
+---
+apiVersion: v1
+kind: PersistentVolumeClaim
+metadata:
+  name: local-zigbee2mqtt-pvc
+  namespace: home-automation
+  labels:
+    app.kubernetes.io/name: zigbee2mqtt
+spec:
+  storageClassName: local-zigbee2mqtt
+  accessModes:
+    - ReadWriteOnce
+  resources:
+    requests:
+      storage: 1Gi
+
