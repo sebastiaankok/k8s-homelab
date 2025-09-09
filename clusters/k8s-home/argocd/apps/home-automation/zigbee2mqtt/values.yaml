@@ -24,6 +24,7 @@ controllers:
 
 service:
   app:
+    controller: zigbee2mqtt
     ports:
       http:
         port: 8080
