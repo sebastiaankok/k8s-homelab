@@ -1,19 +1,21 @@
 deployNodeAgent: true
 
 configuration:
-  provider: aws
-
-  # BackupStorageLocation pointing to B2
-  backupStorageLocations:
+  backupStorageLocation:
     - name: b2
       provider: aws
-      default: true
       bucket: nixos-homelab
+      default: true
       config:
         region: eu-central-003
         s3Url: https://s3.eu-central-003.backblazeb2.com/
         s3ForcePathStyle: "true"
+      credential:
+        name: velero-b2-credentials
+        key: cloud
+      accessMode: ReadWrite
 
-# Credentials secret
-credentials:
-  existingSecret: velero-b2-credentials
+  defaultBackupStorageLocation: b2
+  defaultVolumesToFsBackup: true
+  fsBackupTimeout: 4h
+  uploaderType: kopia
