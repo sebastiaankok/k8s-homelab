@@ -25,10 +25,9 @@ controllers:
         args:
           - |
             echo "Waiting for socket..."
-            until [ -L /dev/ser2net/kamstrup-serial ]; do
+            until [ -S /dev/pts/0 ]; do
               sleep 2
             done
-            sleep 10
             echo "Socket found, starting app"
             python /opt/kamstrup/daemon.py
       socat:
