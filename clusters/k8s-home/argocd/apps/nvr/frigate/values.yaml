@@ -1,13 +1,13 @@
 controllers:
   frigate:
+    annotations:
+      backup.velero.io/backup-volumes: data
+      backup.velero.io/backup-volumes-excludes: cache
     containers:
       app:
         image:
           repository: ghcr.io/blakeblackshear/frigate
           tag: 0.15.2
-        annotations:
-          backup.velero.io/backup-volumes: data
-          backup.velero.io/backup-volumes-excludes: cache
         env:
           FRIGATE_RTSP_ARENTI_USER:
             valueFrom:
