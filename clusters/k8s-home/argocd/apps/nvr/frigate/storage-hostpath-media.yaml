@@ -12,7 +12,7 @@ spec:
     - ReadWriteOnce
   persistentVolumeReclaimPolicy: Retain
   hostPath:
-    path: "/data/nvr/frigate-media"
+    path: "/data/frigate/media"
 ---
 apiVersion: v1
 kind: PersistentVolumeClaim
