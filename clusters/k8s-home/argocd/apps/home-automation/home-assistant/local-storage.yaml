@@ -3,6 +3,8 @@ kind: PersistentVolume
 metadata:
   name: local-hass-pv
   namespace: home-automation
+  labels:
+    app.kubernetes.io/name: home-assistant
 spec:
   capacity:
     storage: 1Gi
@@ -27,6 +29,8 @@ kind: PersistentVolumeClaim
 metadata:
   name: local-hass-pvc
   namespace: home-automation
+  labels:
+    app.kubernetes.io/name: home-assistant
 spec:
   storageClassName: local-hass
   accessModes:
