@@ -39,12 +39,12 @@ ingress:
     enabled: false
 
 persistence:
-  data:
-    existingClaim: hostpath-mosquitto-pvc
-    advancedMounts:
-      mosquitto:
-        app:
-          - path: /mosquitto/data
+  # data:
+  #   existingClaim: hostpath-mosquitto-pvc
+  #   advancedMounts:
+  #     mosquitto:
+  #       app:
+  #         - path: /mosquitto/data
   mosquitto-configfile:
     type: configMap
     name: mosquitto-config
