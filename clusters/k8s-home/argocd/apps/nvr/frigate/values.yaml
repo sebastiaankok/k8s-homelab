@@ -61,7 +61,7 @@ controllers:
           # runAsUser: 1002
           # runAsGroup: 1002
           allowPrivilegeEscalation: false
-          readOnlyRootFilesystem: true
+          readOnlyRootFilesystem: false
           capabilities:
             drop:
               - ALL
