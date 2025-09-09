@@ -1,10 +1,41 @@
 controllers:
-  main:
+  frigate:
     containers:
-      main:
+      app:
         image:
           repository: ghcr.io/blakeblackshear/frigate
           tag: 0.15.2
+        env:
+          FRIGATE_RTSP_ARENTI_USER:
+            valueFrom:
+              secretKeyRef:
+                name: camera-rtsp-config
+                key: FRIGATE_RTSP_ARENTI_USER
+          FRIGATE_RTSP_ARENTI_PASS:
+            valueFrom:
+              secretKeyRef:
+                name: camera-rtsp-config
+                key: FRIGATE_RTSP_ARENTI_PASS
+          FRIGATE_RTSP_ARENTI2_USER:
+            valueFrom:
+              secretKeyRef:
+                name: camera-rtsp-config
+                key: FRIGATE_RTSP_ARENTI_USER
+          FRIGATE_RTSP_ARENTI2_PASS:
+            valueFrom:
+              secretKeyRef:
+                name: camera-rtsp-config
+                key: FRIGATE_RTSP_ARENTI_PASS
+          FRIGATE_RTSP_DOORBELL_USER:
+            valueFrom:
+              secretKeyRef:
+                name: camera-rtsp-config
+                key: FRIGATE_RTSP_DOORBELL_USER
+          FRIGATE_RTSP_DOORBELL_PASS:
+            valueFrom:
+              secretKeyRef:
+                name: camera-rtsp-config
+                key: FRIGATE_RTSP_DOORBELL_PASS
         probes:
           liveness: &probes
             enabled: true
@@ -27,31 +58,38 @@ controllers:
           limits:
             memory: 5Gi
         securityContext:
-          privileged: true
+          runAsUser: 1002
+          runAsGroup: 1002
+          allowPrivilegeEscalation: false
+          readOnlyRootFilesystem: false
+          capabilities:
+            drop:
+              - ALL
+
 service:
-  main:
-    controller: main
+  app:
+    controller: frigate
     ports:
       http:
         port: *port
 
 ingress:
-  main:
+  app:
     enabled: true
     className: nginx
     annotations:
       cert-manager.io/cluster-issuer: letsencrypt-dns
     hosts:
-      - host: frigate.example.com
+      - host: frigate.otohgunga.nl
         paths:
           - path: /
             service:
-              identifier: main
+              identifier: app
               port: http
     tls:
       - secretName: frigate-https-tls
         hosts:
-          - frigate.example.com
+          - frigate.otohgunga.nl
 
 persistence:
   data:
@@ -73,12 +111,12 @@ persistence:
     enabled: true
     type: emptyDir
     medium: Memory
-    sizeLimit: 2Gi
+    sizeLimit: 128Mi
     globalMounts:
       - path: /dev/shm
-  renderD128:
-    enabled: true
-    type: hostPath
-    hostPath: /dev/dri/renderD128
-    globalMounts:
-      - path: /dev/dri/renderD128
+  # renderD128:
+  #   enabled: true
+  #   type: hostPath
+  #   hostPath: /dev/dri/renderD128
+  #   globalMounts:
+  #     - path: /dev/dri/renderD128
