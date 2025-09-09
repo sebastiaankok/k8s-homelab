@@ -35,7 +35,7 @@ ingress:
       cert-manager.io/cluster-issuer: letsencrypt-dns
       nginx.org/websocket-services: home-assistant
     hosts:
-      - host: hass.otohogunga.nl
+      - host: hass.otohgunga.nl
         paths:
           - path: /
             service:
@@ -44,7 +44,7 @@ ingress:
             pathType: Prefix
     tls:
       - hosts:
-          - hass.otohogunga.nl
+          - hass.otohgunga.nl
         secretName: hass-https-tls
 
 persistence:
