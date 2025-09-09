@@ -1,5 +1,24 @@
 controllers:
   kamstrup-mqtt:
+    initContainers:
+      socat:
+        image:
+          repository: alpine/socat
+          tag: 1.8.0.3
+        command:
+          - socat
+        args:
+          - "pty,raw,echo=0,link=/dev/ser2net/kamstrup-serial,mode=0660,owner=1003"
+          - "tcp:rpi4-ser2net.otohgunga.nl:20408"
+        securityContext:
+          runAsUser: 1003
+          runAsGroup: 1003
+          allowPrivilegeEscalation: false
+          readOnlyRootFilesystem: true
+          capabilities:
+            drop:
+              - ALL
+
     containers:
       app:
         image:
@@ -20,23 +39,6 @@ controllers:
           limits:
             memory: 512Mi
 
-      socat:
-        image:
-          repository: alpine/socat
-          tag: 1.8.0.3
-        command:
-          - socat
-        args:
-          - "pty,raw,echo=0,link=/dev/ser2net/kamstrup-serial,mode=0660,owner=1003"
-          - "tcp:rpi4-ser2net.otohgunga.nl:20408"
-        securityContext:
-          runAsUser: 1003
-          runAsGroup: 1003
-          allowPrivilegeEscalation: false
-          readOnlyRootFilesystem: true
-          capabilities:
-            drop:
-              - ALL
 
 service:
   app:
