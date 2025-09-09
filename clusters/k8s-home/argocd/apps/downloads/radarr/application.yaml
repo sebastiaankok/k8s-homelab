@@ -16,6 +16,7 @@ spec:
   sources:
     - repoURL: 'https://github.com/sebastiaankok/k8s-homelab.git'
       targetRevision: main
+      ref: values
       path: "clusters/k8s-home/argocd/apps/downloads/radarr/"
       directory:
         exclude: '{application.yaml,values.yaml}'
@@ -26,6 +27,3 @@ spec:
         releaseName: "radarr"
         valueFiles:
           - $values/clusters/k8s-home/argocd/apps/downloads/radarr/values.yaml
-    - repoURL: 'https://github.com/sebastiaankok/k8s-homelab.git'
-      targetRevision: main
-      ref: values

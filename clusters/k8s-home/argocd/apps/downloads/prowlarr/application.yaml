@@ -17,6 +17,7 @@ spec:
     - repoURL: 'https://github.com/sebastiaankok/k8s-homelab.git'
       targetRevision: main
       path: "clusters/k8s-home/argocd/apps/downloads/prowlarr/"
+      ref: values
       directory:
         exclude: '{application.yaml,values.yaml}'
     - chart: app-template
@@ -26,6 +27,3 @@ spec:
         releaseName: "prowlarr"
         valueFiles:
           - $values/clusters/k8s-home/argocd/apps/downloads/prowlarr/values.yaml
-    - repoURL: 'https://github.com/sebastiaankok/k8s-homelab.git'
-      targetRevision: main
-      ref: values

@@ -14,11 +14,9 @@ spec:
     name: in-cluster
     namespace: home-automation
   sources:
-    #- repoURL: 'https://github.com/sebastiaankok/k8s-homelab.git'
-    #  targetRevision: main
-    #  ref: values
     - repoURL: 'https://github.com/sebastiaankok/k8s-homelab.git'
       targetRevision: main
+      ref: values
       path: "clusters/k8s-home/argocd/apps/home-automation/kamstrup-mqtt/"
       ref: values
       directory:

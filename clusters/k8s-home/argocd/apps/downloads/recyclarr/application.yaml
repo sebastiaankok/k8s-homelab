@@ -16,12 +16,10 @@ spec:
   sources:
     - repoURL: 'https://github.com/sebastiaankok/k8s-homelab.git'
       targetRevision: main
+      ref: values
       path: "clusters/k8s-home/argocd/apps/downloads/recyclarr/"
       directory:
         exclude: '{application.yaml,values.yaml}'
-    - repoURL: 'https://github.com/sebastiaankok/k8s-homelab.git'
-      targetRevision: main
-      ref: values
     - chart: app-template
       repoURL: 'https://bjw-s-labs.github.io/helm-charts'
       targetRevision: 4.2.0
