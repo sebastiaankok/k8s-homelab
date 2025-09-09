@@ -3,6 +3,8 @@ kind: PersistentVolume
 metadata:
   name: local-frigate-pv
   namespace: frigate
+  labels:
+    app.kubernetes.io/name: frigate
 spec:
   capacity:
     storage: 1Gi
@@ -28,6 +30,8 @@ kind: PersistentVolumeClaim
 metadata:
   name: local-frigate-pvc
   namespace: frigate
+  labels:
+    app.kubernetes.io/name: frigate
 spec:
   storageClassName: local-frigate
   accessModes:

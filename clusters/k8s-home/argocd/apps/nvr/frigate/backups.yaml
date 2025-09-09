@@ -10,3 +10,6 @@ spec:
   template:
     includedNamespaces:
     - frigate
+    labelSelector:
+      matchLabels:
+        app.kubernetes.io/name: frigate
