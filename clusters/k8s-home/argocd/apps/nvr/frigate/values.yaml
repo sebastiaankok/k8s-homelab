@@ -58,10 +58,10 @@ controllers:
           limits:
             memory: 5Gi
         securityContext:
-          runAsUser: 1002
-          runAsGroup: 1002
+          # runAsUser: 1002
+          # runAsGroup: 1002
           allowPrivilegeEscalation: false
-          readOnlyRootFilesystem: false
+          readOnlyRootFilesystem: true
           capabilities:
             drop:
               - ALL
