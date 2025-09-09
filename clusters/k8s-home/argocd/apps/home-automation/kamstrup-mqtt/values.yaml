@@ -18,6 +18,16 @@ controllers:
           capabilities:
             drop:
               - ALL
+        probes:
+          readinessProbe:
+            exec:
+              command:
+                - test
+                - -S
+                - /dev/ser2net/kamstrup-serial
+            initialDelaySeconds: 5
+            periodSeconds: 5
+            failureThreshold: 30
 
     containers:
       app:
