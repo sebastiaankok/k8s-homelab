@@ -66,8 +66,5 @@ data:
     i\n\t\treturn float(value)\n"
 kind: ConfigMap
 metadata:
-  creationTimestamp: "2025-09-09T12:12:04Z"
   name: kamstrup-hack
   namespace: home-automation
-  resourceVersion: "53898"
-  uid: 853cb2d8-3447-45ca-be9a-14eb634a9fee
