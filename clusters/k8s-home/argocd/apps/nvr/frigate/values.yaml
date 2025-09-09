@@ -9,37 +9,40 @@ controllers:
         image:
           repository: ghcr.io/blakeblackshear/frigate
           tag: 0.15.2
-        env:
-          FRIGATE_RTSP_ARENTI_USER:
-            valueFrom:
-              secretKeyRef:
+          envFrom:
+            - secretRef:
                 name: camera-rtsp-config
-                key: FRIGATE_RTSP_ARENTI_USER
-          FRIGATE_RTSP_ARENTI_PASS:
-            valueFrom:
-              secretKeyRef:
-                name: camera-rtsp-config
-                key: FRIGATE_RTSP_ARENTI_PASS
-          FRIGATE_RTSP_ARENTI2_USER:
-            valueFrom:
-              secretKeyRef:
-                name: camera-rtsp-config
-                key: FRIGATE_RTSP_ARENTI2_USER
-          FRIGATE_RTSP_ARENTI2_PASS:
-            valueFrom:
-              secretKeyRef:
-                name: camera-rtsp-config
-                key: FRIGATE_RTSP_ARENTI2_PASS
-          FRIGATE_RTSP_DOORBELL_USER:
-            valueFrom:
-              secretKeyRef:
-                name: camera-rtsp-config
-                key: FRIGATE_RTSP_DOORBELL_USER
-          FRIGATE_RTSP_DOORBELL_PASS:
-            valueFrom:
-              secretKeyRef:
-                name: camera-rtsp-config
-                key: FRIGATE_RTSP_DOORBELL_PASS
+        # env:
+        #   FRIGATE_RTSP_ARENTI_USER:
+        #     valueFrom:
+        #       secretKeyRef:
+        #         name: camera-rtsp-config
+        #         key: FRIGATE_RTSP_ARENTI_USER
+        #   FRIGATE_RTSP_ARENTI_PASS:
+        #     valueFrom:
+        #       secretKeyRef:
+        #         name: camera-rtsp-config
+        #         key: FRIGATE_RTSP_ARENTI_PASS
+        #   FRIGATE_RTSP_ARENTI2_USER:
+        #     valueFrom:
+        #       secretKeyRef:
+        #         name: camera-rtsp-config
+        #         key: FRIGATE_RTSP_ARENTI2_USER
+        #   FRIGATE_RTSP_ARENTI2_PASS:
+        #     valueFrom:
+        #       secretKeyRef:
+        #         name: camera-rtsp-config
+        #         key: FRIGATE_RTSP_ARENTI2_PASS
+        #   FRIGATE_RTSP_DOORBELL_USER:
+        #     valueFrom:
+        #       secretKeyRef:
+        #         name: camera-rtsp-config
+        #         key: FRIGATE_RTSP_DOORBELL_USER
+        #   FRIGATE_RTSP_DOORBELL_PASS:
+        #     valueFrom:
+        #       secretKeyRef:
+        #         name: camera-rtsp-config
+        #         key: FRIGATE_RTSP_DOORBELL_PASS
         probes:
           liveness: &probes
             enabled: true
@@ -110,6 +113,15 @@ persistence:
     sizeLimit: 128Mi
     globalMounts:
       - path: /dev/shm
+  kopia-ignore:
+    enabled: true
+    type: configMap
+    name: kopia-ignore
+    advancedMounts:
+      frigate:
+        app:
+          - path: /data/.kopiaignore
+            subPath: .kopiaignore
   # renderD128:
   #   enabled: true
   #   type: hostPath

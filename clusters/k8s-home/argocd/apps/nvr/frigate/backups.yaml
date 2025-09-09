@@ -1,0 +1,25 @@
+apiVersion: velero.io/v1
+kind: Schedule
+metadata:
+  generation: 2
+  name: frigate
+  namespace: velero
+spec:
+  schedule: '@every 24h'
+  skipImmediately: false
+  template:
+    includedNamespaces:
+    - frigate
+---
+apiVersion: v1
+kind: ConfigMap
+metadata:
+  name: kopia-ignore
+  namespace: frigate
+data:
+  .kopiaignore: |
+    /clips/*
+    /frigate/*
+    /model_cache/*
+    /exports/*
+    .*
