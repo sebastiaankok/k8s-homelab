@@ -1,15 +1,15 @@
 apiVersion: velero.io/v1
 kind: Schedule
 metadata:
-  name: frigate
+  name: home-automation
   namespace: velero
 spec:
   schedule: '@every 24h'
   skipImmediately: false
   template:
     includedNamespaces:
-    - frigate
+    - home-automation
     labelSelector:
       matchLabels:
-        app.kubernetes.io/name: frigate
+        app.kubernetes.io/name: home-assistant
     ttl: 168h0m0s
