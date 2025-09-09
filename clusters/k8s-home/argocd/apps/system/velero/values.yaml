@@ -4,7 +4,7 @@ configuration:
   backupStorageLocation:
     - name: b2
       provider: aws
-      bucket: nixos-homelab
+      bucket: k3s-home
       default: true
       config:
         region: eu-central-003
