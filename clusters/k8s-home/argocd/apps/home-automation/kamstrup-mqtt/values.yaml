@@ -25,7 +25,7 @@ controllers:
         args:
           - |
             echo "Waiting for socket..."
-            until [ -S /sockets/mysock ]; do
+            until [ -S /dev/serial/kamstrup-serial ]; do
               sleep 2
             done
             echo "Socket found, starting app"
@@ -36,9 +36,13 @@ controllers:
           tag: 1.8.0.3
         command:
           - socat
+        #args:
+        #  - "pty,raw,echo=0,link=/dev/ser2net/kamstrup-serial,mode=0660,owner=1003"
+        #  - "tcp:rpi4-ser2net.otohgunga.nl:20408"
         args:
-          - "pty,raw,echo=0,link=/dev/ser2net/kamstrup-serial,mode=0660,owner=1003"
-          - "tcp:rpi4-ser2net.otohgunga.nl:20408"
+          - "UNIX-LISTEN:/dev/ser2net/kamstrup-serial,fork,mode=0660,owner=1003,unlink-early"
+          - "TCP:rpi4-ser2net.otohgunga.nl:20408"
+
         securityContext:
           runAsUser: 1003
           runAsGroup: 1003
