@@ -9,9 +9,9 @@ controllers:
         image:
           repository: ghcr.io/blakeblackshear/frigate
           tag: 0.15.2
-          envFrom:
-            - secretRef:
-                name: camera-rtsp-config
+        envFrom:
+          - secretRef:
+              name: camera-rtsp-config
         # env:
         #   FRIGATE_RTSP_ARENTI_USER:
         #     valueFrom:
