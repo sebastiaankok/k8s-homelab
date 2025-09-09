@@ -7,7 +7,7 @@ spec:
   capacity:
     storage: 1Gi
   volumeMode: Filesystem
-  storageClassName: hostpath-frigate-config
+  storageClassName: hostpath-frigate
   accessModes:
     - ReadWriteOnce
   persistentVolumeReclaimPolicy: Retain
@@ -20,7 +20,7 @@ metadata:
   name: hostpath-frigate-pvc
   namespace: frigate
 spec:
-  storageClassName: hostpath-frigate-config
+  storageClassName: hostpath-frigate
   accessModes:
     - ReadWriteOnce
   resources:
