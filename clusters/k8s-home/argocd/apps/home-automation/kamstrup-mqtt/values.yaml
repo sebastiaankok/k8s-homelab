@@ -28,8 +28,9 @@ controllers:
             until [ -L /dev/ser2net/kamstrup-serial2 ]; do
               sleep 2
             done
+            sleep 10
             echo "Socket found, starting app"
-            exec python /opt/kamstrup/daemon.py
+            python /opt/kamstrup/daemon.py
       socat:
         image:
           repository: alpine/socat
