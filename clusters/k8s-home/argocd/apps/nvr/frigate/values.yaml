@@ -5,10 +5,9 @@ controllers:
         image:
           repository: ghcr.io/blakeblackshear/frigate
           tag: 0.15.2
-        pod:
-          annotations:
-            backup.velero.io/backup-volumes: data
-            backup.velero.io/backup-volumes-excludes: cache
+        annotations:
+          backup.velero.io/backup-volumes: data
+          backup.velero.io/backup-volumes-excludes: cache
         env:
           FRIGATE_RTSP_ARENTI_USER:
             valueFrom:
