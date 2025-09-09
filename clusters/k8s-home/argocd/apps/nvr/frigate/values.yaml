@@ -20,12 +20,12 @@ controllers:
             valueFrom:
               secretKeyRef:
                 name: camera-rtsp-config
-                key: FRIGATE_RTSP_ARENTI_USER
+                key: FRIGATE_RTSP_ARENTI2_USER
           FRIGATE_RTSP_ARENTI2_PASS:
             valueFrom:
               secretKeyRef:
                 name: camera-rtsp-config
-                key: FRIGATE_RTSP_ARENTI_PASS
+                key: FRIGATE_RTSP_ARENTI2_PASS
           FRIGATE_RTSP_DOORBELL_USER:
             valueFrom:
               secretKeyRef:
