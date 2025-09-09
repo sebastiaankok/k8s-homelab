@@ -25,7 +25,7 @@ controllers:
         args:
           - |
             echo "Waiting for socket..."
-            until [ -L /dev/ser2net/kamstrup-serial2 ]; do
+            until [ -L /dev/ser2net/kamstrup-serial ]; do
               sleep 2
             done
             sleep 10
