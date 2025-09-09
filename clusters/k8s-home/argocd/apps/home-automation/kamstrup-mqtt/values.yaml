@@ -1,37 +1,5 @@
 controllers:
   kamstrup-mqtt:
-    initContainers:
-      socat:
-        image:
-          repository: alpine/socat
-          tag: 1.8.0.3
-        command:
-          - socat
-        args:
-          - "pty,raw,echo=0,link=/dev/ser2net/kamstrup-serial,mode=0660,owner=1003"
-          - "tcp:rpi4-ser2net.otohgunga.nl:20408"
-        securityContext:
-          runAsUser: 1003
-          runAsGroup: 1003
-          allowPrivilegeEscalation: false
-          readOnlyRootFilesystem: true
-          capabilities:
-            drop:
-              - ALL
-        probes:
-          readiness:
-            enabled: true
-            custom: true
-            spec:
-              exec:
-                command:
-                  - test
-                  - -S
-                  - /dev/ser2net/kamstrup-serial
-              initialDelaySeconds: 5
-              periodSeconds: 5
-              failureThreshold: 30
-
     containers:
       app:
         image:
@@ -51,6 +19,34 @@ controllers:
             memory: 128Mi
           limits:
             memory: 512Mi
+        command:
+          - /bin/sh
+          - -c
+        args:
+          - |
+            echo "Waiting for socket..."
+            until [ -S /sockets/mysock ]; do
+              sleep 2
+            done
+            echo "Socket found, starting app"
+            exec python /opt/kamstrup/daemon.py
+      socat:
+        image:
+          repository: alpine/socat
+          tag: 1.8.0.3
+        command:
+          - socat
+        args:
+          - "pty,raw,echo=0,link=/dev/ser2net/kamstrup-serial,mode=0660,owner=1003"
+          - "tcp:rpi4-ser2net.otohgunga.nl:20408"
+        securityContext:
+          runAsUser: 1003
+          runAsGroup: 1003
+          allowPrivilegeEscalation: false
+          readOnlyRootFilesystem: true
+          capabilities:
+            drop:
+              - ALL
 
 
 service:
