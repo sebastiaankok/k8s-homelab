@@ -22,7 +22,7 @@ spec:
       path: "clusters/k8s-home/argocd/apps/databases/cnpg-operator/"
       directory:
         exclude: '{application.yaml,values.yaml}'
-    - chart: app-template
+    - chart: cloudnative-pg
       repoURL: 'https://cloudnative-pg.io/charts/'
       targetRevision: 0.26.0
       helm:
