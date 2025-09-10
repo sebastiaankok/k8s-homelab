@@ -27,5 +27,5 @@ spec:
       targetRevision: 0.26.0
       helm:
         releaseName: "cnpg-operator"
-        valueFiles:
-          - $values/clusters/k8s-home/argocd/apps/databases/cnpg-operator/values.yaml
+        #valueFiles:
+        #  - $values/clusters/k8s-home/argocd/apps/databases/cnpg-operator/values.yaml
