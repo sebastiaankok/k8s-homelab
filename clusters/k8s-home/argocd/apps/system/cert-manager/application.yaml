@@ -18,7 +18,7 @@ spec:
       prune: true
   destination:
     name: in-cluster
-    namespace: kube-system
+    namespace: cert-manager
   sources:
     - repoURL: 'https://github.com/sebastiaankok/k8s-homelab.git'
       targetRevision: main
