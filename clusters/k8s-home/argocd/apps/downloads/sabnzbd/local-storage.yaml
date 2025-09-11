@@ -1,19 +1,19 @@
 apiVersion: v1
 kind: PersistentVolume
 metadata:
-  name: local-radarr-pv
+  name: local-sabnzbd-pv
   labels:
-    app.kubernetes.io/name: radarr
+    app.kubernetes.io/name: sabnzbd
 spec:
   capacity:
     storage: 1Gi
   volumeMode: Filesystem
-  storageClassName: local-radarr
+  storageClassName: local-sabnzbd
   accessModes:
     - ReadWriteOnce
   persistentVolumeReclaimPolicy: Retain
   local:
-    path: "/data/mediaserver/radarr"
+    path: "/data/mediaserver/sabnzbd"
   nodeAffinity:
     required:
       nodeSelectorTerms:
@@ -26,12 +26,12 @@ spec:
 apiVersion: v1
 kind: PersistentVolumeClaim
 metadata:
-  name: local-radarr-pvc
+  name: local-sabnzbd-pvc
   namespace: media
   labels:
-    app.kubernetes.io/name: radarr
+    app.kubernetes.io/name: sabnzbd
 spec:
-  storageClassName: local-radarr
+  storageClassName: local-sabnzbd
   accessModes:
     - ReadWriteOnce
   resources:
