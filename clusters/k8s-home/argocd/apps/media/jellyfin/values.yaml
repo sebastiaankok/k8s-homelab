@@ -8,8 +8,6 @@ controllers:
         runAsUser: 992
         runAsGroup: 990
         runAsNonRoot: true
-        fsGroup: 990
-        fsGroupChangePolicy: "OnRootMismatch"
       annotations:
         backup.velero.io/backup-volumes: config
         backup.velero.io/backup-volumes-excludes: media,tmpfs
