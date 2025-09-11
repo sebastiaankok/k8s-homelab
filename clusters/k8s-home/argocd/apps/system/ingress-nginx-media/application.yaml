@@ -26,6 +26,6 @@ spec:
       repoURL: 'https://kubernetes.github.io/ingress-nginx'
       targetRevision: 4.13.2
       helm:
-        releaseName: "ingress-nginx"
+        releaseName: "ingress-nginx-media"
         valueFiles:
           - $values/clusters/k8s-home/argocd/apps/system/ingress-nginx-media/values.yaml
