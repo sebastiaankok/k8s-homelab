@@ -30,9 +30,6 @@ controllers:
             sabnzbd.media.svc.cluster,
             sabnzbd.media.svc.cluster.local,
             sabnzbd.otohgunga.nl
-        envFrom:
-          - secretRef:
-              name: sabnzbd-secret
         probes:
           liveness: &probes
             enabled: true
