@@ -9,5 +9,6 @@ spec:
   cluster:
     name: postgresql-17
   extensions:
+  - ensure: present
   - name: vector
 ---
