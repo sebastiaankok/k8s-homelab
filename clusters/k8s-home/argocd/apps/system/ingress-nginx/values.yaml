@@ -2,6 +2,10 @@ controller:
   kind: Deployment
   priorityClassName: system-cluster-critical
   watchIngressWithoutClass: false
+  ingressClassResource:
+    name: nginx
+    enabled: true
+    default: false
   service:
     externalTrafficPolicy: Local
     loadBalancerIP: 10.10.21.50
