@@ -1,7 +1,7 @@
 apiVersion: velero.io/v1
 kind: Schedule
 metadata:
-  name: sonarr
+  name: bazarr
   namespace: velero
 spec:
   schedule: '@every 24h'
@@ -11,5 +11,5 @@ spec:
     - media
     labelSelector:
       matchLabels:
-        app.kubernetes.io/name: sonarr
+        app.kubernetes.io/name: bazarr
     ttl: 336h0m0s
