@@ -12,7 +12,7 @@ spec:
       prune: true
   destination:
     name: in-cluster
-    namespace: plex
+    namespace: media
   sources:
     - repoURL: 'https://github.com/sebastiaankok/k8s-homelab.git'
       targetRevision: main
