@@ -6,7 +6,7 @@ metadata:
   namespace: postgresql
 spec:
   description: ""
-  imageName: ghcr.io/cloudnative-pg/postgresql:17.5
+  imageName: ghcr.io/tensorchord/cloudnative-vectorchord:15-0.5.1
   instances: 1
   primaryUpdateStrategy: unsupervised
 
@@ -18,11 +18,14 @@ spec:
       ensure: present
       comment: Immich
       login: true
-      superuser: false
+      superuser: true
       passwordSecret:
         name: postgresql-user-immich
 
   postgresql:
+    shared_preload_libraries:
+      - "vchord.so"
+
     parameters:
       shared_buffers: 256MB
       pg_stat_statements.max: '10000'
