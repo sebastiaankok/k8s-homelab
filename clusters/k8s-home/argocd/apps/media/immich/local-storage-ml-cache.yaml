@@ -1,0 +1,41 @@
+apiVersion: v1
+kind: PersistentVolume
+metadata:
+  name: local-immich-ml-cache-pv
+  namespace: immich
+  labels:
+    app.kubernetes.io/name: immich
+spec:
+  capacity:
+    storage: 1Gi
+  volumeMode: Filesystem
+  storageClassName: local-immich-ml-cache
+  accessModes:
+    - ReadWriteOnce
+  persistentVolumeReclaimPolicy: Retain
+  local:
+    path: /data/immich
+  nodeAffinity:
+    required:
+      nodeSelectorTerms:
+        - matchExpressions:
+            - key: kubernetes.io/hostname
+              operator: In
+              values:
+                - k3s-home
+
+---
+apiVersion: v1
+kind: PersistentVolumeClaim
+metadata:
+  name: local-immich-ml-cache-pvc
+  namespace: immich
+  labels:
+    app.kubernetes.io/name: immich
+spec:
+  storageClassName: local-immich-ml-cache
+  accessModes:
+    - ReadWriteOnce
+  resources:
+    requests:
+      storage: 1Gi
