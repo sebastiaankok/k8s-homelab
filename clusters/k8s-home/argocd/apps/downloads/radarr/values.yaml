@@ -5,7 +5,7 @@ controllers:
       main:
         image:
           repository: ghcr.io/onedr0p/radarr
-          tag: 5.17.2.9580@sha256:32d0e8d46f5619069d88445936670ffbca5a3aab7ed2e94e77a834ed85df81bb
+          tag: 5.20.1.9773@sha256:4fa8fc7dcf3b38dbed279125330a8b9bd7be6e68e317e685089d3b03774aeeab
         env:
           RADARR__INSTANCE_NAME: Radarr
           RADARR__PORT: &port 7878
