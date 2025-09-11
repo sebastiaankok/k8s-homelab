@@ -6,13 +6,15 @@ metadata:
   namespace: immich
 spec:
   description: ""
-  #imageName: ghcr.io/tensorchord/cloudnative-pgvecto.rs:15.13
-  imageName: ghcr.io/tensorchord/cloudnative-vectorchord:15-0.3.0
+  # psvector image to do migration
+  # imageName: ghcr.io/tensorchord/cloudnative-pgvecto.rs:15.13
+  imageName: ghcr.io/tensorchord/cloudnative-vectorchord:15-0.5.1
   instances: 1
   primaryUpdateStrategy: unsupervised
 
   postgresql:
     shared_preload_libraries:
+      # psvectors library to do migration
       #- "vectors.so"
       - "vchord.so"
 
