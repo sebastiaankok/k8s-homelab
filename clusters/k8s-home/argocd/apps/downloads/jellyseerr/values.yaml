@@ -53,7 +53,7 @@ ingress:
         paths:
           - path: /
             service:
-              identifier: app
+              identifier: main
               port: http
     tls:
       - secretName: jellyseerr-https-tls
