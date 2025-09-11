@@ -30,7 +30,7 @@ controllers:
             valueFrom:
               secretKeyRef:
                 name: postgresql-user-immich
-              key: password
+                key: password
         envFrom:
           - configMapRef:
               name: immich-configmap
