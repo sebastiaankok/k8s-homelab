@@ -1,0 +1,40 @@
+apiVersion: v1
+kind: PersistentVolume
+metadata:
+  name: local-jellyfin-pv
+  namespace: home-automation
+  labels:
+    app.kubernetes.io/name: jellyfin
+spec:
+  capacity:
+    storage: 1Gi
+  volumeMode: Filesystem
+  storageClassName: local-jellyfin
+  accessModes:
+    - ReadWriteOnce
+  persistentVolumeReclaimPolicy: Retain
+  local:
+    path: "/data/jellyfin"
+  nodeAffinity:
+    required:
+      nodeSelectorTerms:
+        - matchExpressions:
+            - key: kubernetes.io/hostname
+              operator: In
+              values:
+                - k3s-home
+---
+apiVersion: v1
+kind: PersistentVolumeClaim
+metadata:
+  name: local-jellyfin-pvc
+  namespace: home-automation
+  labels:
+    app.kubernetes.io/name: jellyfin
+spec:
+  storageClassName: local-jellyfin
+  accessModes:
+    - ReadWriteOnce
+  resources:
+    requests:
+      storage: 1Gi
