@@ -4,17 +4,13 @@ kind: ConfigMap
 metadata:
   name: immich-configmap
 data:
-  # URLS
-  PUBLIC_IMMICH_SERVER_URL: https://immich.otohgunga.nl
-  IMMICH_SERVER_URL: http://immich-server.immich.svc.cluster.local:3001
-  IMMICH_MACHINE_LEARNING_URL: http://immich-machine-learning.immich.svc.cluster.local:3003
-  # REDIS
-  REDIS_HOSTNAME: immich-valkey.immich.svc.cluster.local
+  PUBLIC_IMMICH_SERVER_URL: "https://immich.otohgunga.nl"
+  IMMICH_SERVER_URL: "http://immich-server.immich.svc.cluster.local:3001"
+  IMMICH_MACHINE_LEARNING_URL: "http://immich-machine-learning.immich.svc.cluster.local:3003"
+  REDIS_HOSTNAME: "immich-valkey.immich.svc.cluster.local"
   REDIS_PORT: "6379"
-  # General
   NODE_ENV: "production"
   LOG_LEVEL: warn
-  # Database
   DB_HOSTNAME: "immich-postgresql-15-rw.immich.svc.cluster.local"
-  DB_PORT: 5432
+  DB_PORT: "5432"
   DB_DATABASE_NAME: "immich"
