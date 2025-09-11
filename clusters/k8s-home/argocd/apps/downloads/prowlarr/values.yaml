@@ -21,11 +21,6 @@ controllers:
           tag: 2.1.0.5180
         env:
           PROWLARR__APP__INSTANCENAME: Prowlarr
-          PROWLARR__AUTH__APIKEY:
-            valueFrom:
-              secretKeyRef:
-                name: prowlarr-secret
-                key: api_key
           PROWLARR__AUTH__METHOD: External
           PROWLARR__LOG__DBENABLED: "False"
           PROWLARR__LOG__LEVEL: info
