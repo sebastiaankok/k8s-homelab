@@ -5,10 +5,10 @@ controllers:
       reloader.stakater.com/auto: "true"
     pod:
       securityContext:
-        runAsUser: 1000
-        runAsGroup: 1000
+        runAsUser: 992
+        runAsGroup: 990
         runAsNonRoot: true
-        fsGroup: 1000
+        fsGroup: 990
         fsGroupChangePolicy: "OnRootMismatch"
       annotations:
         backup.velero.io/backup-volumes: config
@@ -63,7 +63,6 @@ persistence:
     existingClaim: local-media-pvc
     globalMounts:
       - path: /data/library
-        readOnly: true
   tmpfs:
     type: emptyDir
     advancedMounts:
