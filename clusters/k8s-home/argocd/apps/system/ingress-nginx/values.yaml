@@ -1,7 +1,7 @@
 controller:
   kind: Deployment
   priorityClassName: system-cluster-critical
-  watchIngressWithoutClass: true
+  watchIngressWithoutClass: false
   service:
     externalTrafficPolicy: Local
     loadBalancerIP: 10.10.21.50
