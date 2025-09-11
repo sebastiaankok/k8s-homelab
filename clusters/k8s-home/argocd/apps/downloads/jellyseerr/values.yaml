@@ -1,0 +1,77 @@
+controllers:
+  jellyseerr:
+    pod:
+      securityContext:
+        runAsUser: 992
+        runAsGroup: 990
+        fsGroup: 990
+        fsGroupChangePolicy: OnRootMismatch
+    containers:
+      main:
+        image:
+          repository: ghcr.io/fallenbagel/jellyseerr
+          tag: 2.7.3
+        resources:
+          requests:
+            cpu: 10m
+          limits:
+            memory: 2Gi
+        securityContext:
+          allowPrivilegeEscalation: false
+          readOnlyRootFilesystem: true
+          capabilities: {drop: [ALL]}
+        probes:
+          liveness: &probes
+            enabled: true
+            custom: true
+            spec:
+              httpGet:
+                path: /api/v1/status
+                port: &port 80
+              initialDelaySeconds: 0
+              periodSeconds: 10
+              timeoutSeconds: 1
+              failureThreshold: 3
+          readiness: *probes
+        env:
+          LOG_LEVEL: info
+          PORT: *port
+service:
+  main:
+    ports:
+      http:
+        port: *port
+
+ingress:
+  app:
+    enabled: true
+    className: ingress-nginx-media
+    annotations:
+      cert-manager.io/cluster-issuer: letsencrypt-dns
+    hosts:
+      - host: jellyseerr.otohgunga.nl
+        paths:
+          - path: /
+            service:
+              identifier: app
+              port: http
+    tls:
+      - secretName: jellyseerr-https-tls
+        hosts:
+          - jellyseerr.otohgunga.nl
+
+persistence:
+  config:
+    existingClaim: local-jellyseerr-pvc
+    globalMounts:
+      - path: /app/config
+      - path: /app/config/cache
+  tmps:
+    type: emptyDir
+    advancedMounts:
+      jellyseerr:
+        main:
+          - path: /app/config/logs
+            subPath: logs
+          - path: /tmp
+            subPath: tmp

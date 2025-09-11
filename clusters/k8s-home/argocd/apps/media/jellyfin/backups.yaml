@@ -1,0 +1,15 @@
+apiVersion: velero.io/v1
+kind: Schedule
+metadata:
+  name: jellyfin
+  namespace: velero
+spec:
+  schedule: '@every 24h'
+  skipImmediately: false
+  template:
+    includedNamespaces:
+    - media
+    labelSelector:
+      matchLabels:
+        app.kubernetes.io/name: jellyfin
+    ttl: 336h0m0s

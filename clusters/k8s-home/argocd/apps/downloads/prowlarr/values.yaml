@@ -1,109 +1,86 @@
 # yaml-language-server: $schema=https://raw.githubusercontent.com/bjw-s-labs/helm-charts/refs/heads/main/charts/library/common/values.schema.json
 controllers:
-  main:
+  prowlarr:
+    annotations:
+      reloader.stakater.com/auto: "true"
+
+    pod:
+      securityContext:
+        runAsUser: 992
+        runAsGroup: 990
+        runAsNonRoot: true
+        fsGroup: 990
+        fsGroupChangePolicy: OnRootMismatch
+      annotations:
+        backup.velero.io/backup-volumes: config
+
     containers:
-      main:
+      app:
         image:
-          repository: ghcr.io/onedr0p/prowlarr-nightly
-          tag: 1.29.2.4913@sha256:08d8c123e6ec513fd6037066daa098fb5d0289a4fc1b6ea3cd33637673e9fa1c
+          repository: ghcr.io/home-operations/prowlarr
+          tag: 2.1.0.5180
         env:
-          PROWLARR__INSTANCE_NAME: Prowlarr
-          PROWLARR__PORT: &port 9696
-          PROWLARR__LOG_LEVEL: info
-          PROWLARR__ANALYTICS_ENABLED: "False"
-        securityContext:
-          runAsUser: 568
-          runAsGroup: 568
-          runAsNonRoot: true
-          allowPrivilegeEscalation: false
-          readOnlyRootFilesystem: false
-          capabilities:
-            drop:
-              - ALL
-      dnsdist:
-        image:
-          repository: docker.io/powerdns/dnsdist-18
-          tag: 1.8.3
+          PROWLARR__APP__INSTANCENAME: Prowlarr
+          PROWLARR__AUTH__APIKEY:
+            valueFrom:
+              secretKeyRef:
+                name: prowlarr-secret
+                key: api_key
+          PROWLARR__AUTH__METHOD: External
+          PROWLARR__LOG__DBENABLED: "False"
+          PROWLARR__LOG__LEVEL: info
+          PROWLARR__SERVER__PORT: &port 9696
+          PROWLARR__UPDATE__BRANCH: develop
+        probes:
+          liveness: &probes
+            enabled: true
+            custom: true
+            spec:
+              httpGet:
+                path: /ping
+                port: *port
+              initialDelaySeconds: 0
+              periodSeconds: 10
+              timeoutSeconds: 1
+              failureThreshold: 3
+          readiness: *probes
+        resources:
+          requests:
+            cpu: 18m
+            memory: 128Mi
+          limits:
+            memory: 512Mi
         securityContext:
           allowPrivilegeEscalation: false
           readOnlyRootFilesystem: true
           capabilities:
             drop:
               - ALL
-      gluetun:
-        image:
-          repository: ghcr.io/qdm12/gluetun
-          tag: latest@sha256:62e76d60e4220950558215647049c2b9ef0fc64272b80f9012562555b140bf84
-        env:
-          - name: VPN_SERVICE_PROVIDER
-            value: protonvpn
-          - name: SERVER_COUNTRIES
-            value: Netherlands
-          - name: DNS_PLAINTEXT_ADDRESS
-            value: 127.0.0.2
-          - name: SHADOWSOCKS
-            value: "on"
-          - name: DOT
-            value: "off"
-          - name: FREE_ONLY
-            value: "on"
-          - name: FIREWALL_OUTBOUND_SUBNETS
-            value: 10.0.0.0/16,10.42.0.0/16,10.43.0.0/16
-          - name: FIREWALL_INPUT_PORTS
-            value: *port
-        envFrom:
-          - secretRef:
-              name: vpn-secret
-        securityContext:
-          capabilities:
-            add:
-              - NET_ADMIN
-
-persistence:
-  config:
-    enabled: true
-    existingClaim: hostpath-prowlarr-pvc
-    advancedMounts:
-      main:
-        main:
-          - path: /config
-  gluetun-data:
-    type: emptyDir
-    advancedMounts:
-      main:
-        gluetun:
-          - path: /tmp/gluetun
-  dnsdist-config:
-    type: configMap
-    name: dnsdist-config
-    advancedMounts:
-      main:
-        dnsdist:
-          - path: /etc/dnsdist/dnsdist.conf
-            subPath: dnsdist.conf
-            readOnly: true
 
 service:
-  main:
-    controller: main
+  app:
     ports:
       http:
         port: *port
 
 ingress:
-  main:
+  app:
     enabled: true
-    className: nginx
+    className: ingress-nginx-media
     annotations:
       cert-manager.io/cluster-issuer: letsencrypt-dns
     hosts:
-      - host: "prowlarr.example.com"
+      - host: prowlarr.otohgunga.nl
         paths:
           - path: /
             service:
-              identifier: main
+              identifier: app
               port: http
     tls:
-      - hosts:
-          - "prowlarr.example.com"
-        secretName: "prowlarr-https-tls"
+      - secretName: prowlarr-https-tls
+        hosts:
+          - prowlarr.otohgunga.nl
+
+persistence:
+  config:
+    existingClaim: local-prowlarr-pvc

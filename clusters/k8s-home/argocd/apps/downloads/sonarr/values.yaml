@@ -1,65 +1,92 @@
 # yaml-language-server: $schema=https://raw.githubusercontent.com/bjw-s-labs/helm-charts/refs/heads/main/charts/library/common/values.schema.json
 controllers:
-  main:
+  sonarr:
+    annotations:
+      reloader.stakater.com/auto: "true"
+
+    pod:
+      securityContext:
+        runAsUser: 992
+        runAsGroup: 990
+        runAsNonRoot: true
+        fsGroup: 990
+        fsGroupChangePolicy: "OnRootMismatch"
+      annotations:
+        backup.velero.io/backup-volumes: config
+        backup.velero.io/backup-volumes-excludes: media,tmpfs
+
     containers:
-      main:
+      app:
         image:
-          repository: ghcr.io/onedr0p/sonarr-develop
-          tag: 4.0.12.2825@sha256:ae7efba78efc1d4923578f97933e206dcdf43fb1fd2533cfa3be77ab6d0e74b1
+          repository: ghcr.io/home-operations/sonarr
+          tag: 4.0.15.2940
         env:
-          SONARR__INSTANCE_NAME: Sonarr
-          SONARR__PORT: &port 8989
-          SONARR__AUTHENTICATION_REQUIRED: DisabledForLocalAddresses
-          SONARR__APPLICATION_URL: "https://sonarr.example.com"
-          SONARR__LOG_LEVEL: info
+          SONARR__APP__INSTANCENAME: Sonarr
+          SONARR__AUTH__METHOD: External
+          SONARR__AUTH__REQUIRED: DisabledForLocalAddresses
+          SONARR__LOG__DBENABLED: "False"
+          SONARR__LOG__LEVEL: info
+          SONARR__SERVER__PORT: &port 8989
+          SONARR__UPDATE__BRANCH: develop
+        probes:
+          liveness: &probes
+            enabled: true
+            custom: true
+            spec:
+              httpGet:
+                path: /ping
+                port: *port
+              initialDelaySeconds: 0
+              periodSeconds: 10
+              timeoutSeconds: 1
+              failureThreshold: 3
+          readiness: *probes
+        resources:
+          requests:
+            cpu: 20m
+            memory: 384Mi
+          limits:
+            memory: 2Gi
         securityContext:
-          runAsUser: 568
-          runAsGroup: 568
-          runAsNonRoot: true
           allowPrivilegeEscalation: false
-          readOnlyRootFilesystem: false
+          readOnlyRootFilesystem: true
           capabilities:
             drop:
               - ALL
 
-persistence:
-  config:
-    enabled: true
-    existingClaim: hostpath-sonarr-pvc
-    advancedMounts:
-      main:
-        main:
-          - path: /config
-  media:
-    enabled: true
-    type: hostPath
-    hostPath: /data/library
-    advancedMounts:
-      main:
-        main:
-          - path: /data/nas-media-ssd
-
 service:
-  main:
-    controller: main
+  app:
     ports:
       http:
         port: *port
 
+persistence:
+  config:
+    existingClaim: local-sonarr-pvc
+  tmpfs:
+    type: emptyDir
+    globalMounts:
+      - path: /tmp
+        subPath: tmp
+  media:
+    existingClaim: local-media-pvc
+    globalMounts:
+      - path: /data/library
+
 ingress:
-  main:
+  app:
     enabled: true
-    className: nginx
+    className: ingress-nginx-media
     annotations:
       cert-manager.io/cluster-issuer: letsencrypt-dns
     hosts:
-      - host: "sonarr.example.com"
+      - host: sonarr.otohgunga.nl
         paths:
           - path: /
             service:
-              identifier: main
+              identifier: app
               port: http
     tls:
-      - hosts:
-          - "sonarr.example.com"
-        secretName: "sonarr-https-tls"
+      - secretName: sonarr-https-tls
+        hosts:
+          - sonarr.otohgunga.nl

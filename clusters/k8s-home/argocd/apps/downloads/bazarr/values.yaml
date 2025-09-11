@@ -1,25 +1,25 @@
 # yaml-language-server: $schema=https://raw.githubusercontent.com/bjw-s-labs/helm-charts/refs/heads/main/charts/library/common/values.schema.json
 controllers:
-  jellyfin:
+  bazarr:
     annotations:
       reloader.stakater.com/auto: "true"
+
     pod:
       securityContext:
-        runAsUser: 1000
-        runAsGroup: 1000
+        runAsUser: 992
+        runAsGroup: 990
         runAsNonRoot: true
-        fsGroup: 1000
+        fsGroup: 990
         fsGroupChangePolicy: "OnRootMismatch"
       annotations:
         backup.velero.io/backup-volumes: config
         backup.velero.io/backup-volumes-excludes: media,tmpfs
+
     containers:
       app:
         image:
-          repository: ghcr.io/jellyfin/jellyfin
-          tag: 10.10.7@sha256:e4d1dc5374344446a3a78e43dd211247f22afba84ea2e5a13cbe1a94e1ff2141
-        env:
-          TZ: Europe/Amsterdam
+          repository: ghcr.io/home-operations/bazarr
+          tag: 1.5.2
         probes:
           liveness: &probes
             enabled: true
@@ -27,27 +27,25 @@ controllers:
             spec:
               httpGet:
                 path: /health
-                port: &port 8096
+                port: &port 6767
               initialDelaySeconds: 0
               periodSeconds: 10
               timeoutSeconds: 1
               failureThreshold: 3
           readiness: *probes
-          startup:
-            enabled: true
-            spec:
-              failureThreshold: 30
-              periodSeconds: 10
+        resources:
+          requests:
+            cpu: 15m
+            memory: 256Mi
+          limits:
+            memory: 512Mi
         securityContext:
           allowPrivilegeEscalation: false
           readOnlyRootFilesystem: true
-          capabilities: {drop: ["ALL"]}
-        resources:
-          requests:
-            cpu: 100m
-            memory: 128Mi
-          limits:
-            memory: 8Gi
+          capabilities:
+            drop:
+              - ALL
+
 service:
   app:
     ports:
@@ -56,25 +54,11 @@ service:
 
 persistence:
   config:
-    existingClaim: local-jellyfin-pvc
-    globalMounts:
-      - path: /config
+    existingClaim: local-bazarr-pvc
   media:
     existingClaim: local-media-pvc
     globalMounts:
       - path: /data/library
-        readOnly: true
-  tmpfs:
-    type: emptyDir
-    advancedMounts:
-      jellyfin:
-        app:
-          - path: /cache
-            subPath: cache
-          - path: /config/log
-            subPath: log
-          - path: /tmp
-            subPath: tmp
 
 ingress:
   app:
@@ -83,13 +67,13 @@ ingress:
     annotations:
       cert-manager.io/cluster-issuer: letsencrypt-dns
     hosts:
-      - host: jellyfin.otohgunga.nl
+      - host: bazarr.otohgunga.nl
         paths:
           - path: /
             service:
               identifier: app
               port: http
     tls:
-      - secretName: jellyfin-https-tls
+      - secretName: bazarr-https-tls
         hosts:
-          - jellyfin.otohgunga.nl
+          - bazarr.otohgunga.nl

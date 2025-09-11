@@ -1,7 +1,7 @@
 apiVersion: argoproj.io/v1alpha1
 kind: Application
 metadata:
-  name: prowlarr
+  name: jellyseerr
   namespace: argocd
   annotations:
     argocd.argoproj.io/sync-wave: "3"
@@ -16,14 +16,14 @@ spec:
   sources:
     - repoURL: 'https://github.com/sebastiaankok/k8s-homelab.git'
       targetRevision: main
-      path: "clusters/k8s-home/argocd/apps/downloads/prowlarr/"
       ref: values
+      path: "clusters/k8s-home/argocd/apps/downloads/jellyseerr/"
       directory:
         exclude: '{application.yaml,values.yaml}'
     - chart: app-template
       repoURL: 'https://bjw-s-labs.github.io/helm-charts'
       targetRevision: 4.2.0
       helm:
-        releaseName: "prowlarr"
+        releaseName: "jellyseerr"
         valueFiles:
-          - $values/clusters/k8s-home/argocd/apps/downloads/prowlarr/values.yaml
+          - $values/clusters/k8s-home/argocd/apps/downloads/jellyseerr/values.yaml
