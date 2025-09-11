@@ -8,4 +8,6 @@ spec:
   owner: immich
   cluster:
     name: postgresql-17
+  extensions:
+  - name: vector
 ---
