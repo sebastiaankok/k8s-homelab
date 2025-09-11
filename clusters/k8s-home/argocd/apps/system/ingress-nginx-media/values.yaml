@@ -1,4 +1,6 @@
 controller:
+  updateStatus:
+    enabled: false
   kind: Deployment
   priorityClassName: system-cluster-critical
   ingressClassResource:
