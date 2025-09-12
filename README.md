@@ -1,69 +1,87 @@
-# k8s-homelab
+<div align="center">
 
-Repository for managing my k8s homelab
+<img src="https://raw.githubusercontent.com/kubernetes/kubernetes/master/logo/logo.png" align="center" width="144px" height="144px"/>
 
-## Bootstrap ArgoCD core
+### <img src="https://fonts.gstatic.com/s/e/notoemoji/latest/1f680/512.gif" alt="🚀" width="16" height="16"> My Home Ops Repository <img src="https://fonts.gstatic.com/s/e/notoemoji/latest/1f6a7/512.gif" alt="🚧" width="16" height="16">
 
-Applying the manifest will install ArgoCD core and repository-controller
+_... managed with ArgoCD, NixOS, and k3s_ <img src="https://fonts.gstatic.com/s/e/notoemoji/latest/1f916/512.gif" alt="🤖" width="16" height="16">
 
+</div>
+
+<div align="center">
+
+[![ArgoCD](https://img.shields.io/badge/GitOps-ArgoCD-blue?logo=argo&logoColor=white&style=for-the-badge)](https://argo-cd.readthedocs.io)&nbsp;&nbsp;
+[![Kubernetes](https://img.shields.io/badge/Kubernetes-k3s-blue?logo=kubernetes&logoColor=white&style=for-the-badge)](https://k3s.io)&nbsp;&nbsp;
+[![NixOS](https://img.shields.io/badge/OS-NixOS-blue?logo=nixos&logoColor=white&style=for-the-badge)](https://nixos.org)&nbsp;&nbsp;
+
+</div>
+
+---
+
+## 💡 Overview
+
+This repository contains my **GitOps-driven homelab** powered by:
+
+- **NixOS** (flake-based) for declarative host management
+- **k3s** as the lightweight Kubernetes distribution
+- **ArgoCD** for continuous reconciliation of Kubernetes manifests
+
+Primary workloads: home automation, media, downloads, databases, networking and system services — all managed declaratively under `./clusters/k8s-home/argocd/apps`.
+
+---
+
+## <img src="https://fonts.gstatic.com/s/e/notoemoji/latest/1f331/512.gif" alt="🌱" width="20" height="20"> GitOps Layout
+
+```sh
+📁 clusters
+└── 📁 k8s-home
+    ├── 📁 argocd
+    │   ├── 📁 apps
+    │   │   ├── 📁 databases
+    │   │   │   └── 📁 cnpg-operator
+    │   │   ├── 📁 home-automation
+    │   │   │   ├── 📁 mosquitto
+    │   │   │   ├── 📁 kamstrup-mqtt
+    │   │   │   ├── 📁 zigbee2mqtt
+    │   │   │   └── 📁 home-assistant
+    │   │   ├── 📁 network
+    │   │   │   └── 📁 wol-proxy
+    │   │   ├── 📁 system
+    │   │   │   ├── 📁 velero
+    │   │   │   ├── 📁 cert-manager
+    │   │   │   ├── 📁 ingress-nginx
+    │   │   │   └── 📁 ingress-nginx-media
+    │   │   ├── 📁 downloads
+    │   │   │   ├── 📁 bazarr
+    │   │   │   ├── 📁 prowlarr
+    │   │   │   ├── 📁 sabnzbd
+    │   │   │   ├── 📁 radarr
+    │   │   │   ├── 📁 sonarr
+    │   │   │   └── 📁 jellyseerr
+    │   │   ├── 📁 nvr
+    │   │   │   └── 📁 frigate
+    │   │   └── 📁 media
+    │   │       ├── 📁 jellyfin
+    │   │       └── 📁 immich
 ```
-kubectl apply --kustomize clusters/k8s-home/bootstrap
-```
 
-## References helm charts
+## 🧱 Hardware
 
-- [bjw-s/helm-charts](https://bjw-s.github.io/helm-charts)
-- [cloudnative-pg](https://cloudnative-pg.io/charts/)
-- [helm.cilium.io](https://helm.cilium.io/)
-- [argo-cd](https://raw.githubusercontent.com/argoproj/argo-cd/v2.10.1/manifests/core-install.yaml)
-- [kubernetes/ingress-nginx](https://kubernetes.github.io/ingress-nginx)
-- [charts.jetstack.io](https://charts.jetstack.io)
-- [rancher/local-path-provisioner](https://github.com/rancher/local-path-provisioner.git)
-- [nextcloud/helm](https://nextcloud.github.io/helm/)
+- **Main host**: Gigabyte B660M — 13th Gen Intel® Core™ i5-13600, **64 GB RAM**, **2 TB SSD** + **20 GB HDD**
+- **Edge**: Raspberry Pi 4 — **8 GB** (for edge/arm workloads)
 
+---
 
-## References image repositories
+## ✅ Conventions & Notes
 
-- [ghcr.io/cloudnative-pg](https://ghcr.io/cloudnative-pg)
-- [public.ecr.aws/docker/library/eclipse-mosquitto](https://public.ecr.aws/docker/library/eclipse-mosquitto)
-- [ghcr.io/koenkk/zigbee2mqtt](https://ghcr.io/koenkk/zigbee2mqtt)
-- [rhasspy/wyoming-whisper](https://rhasspy/wyoming-whisper)
-- [ghcr.io/home-assistant](https://ghcr.io/home-assistant)
-- [rclone/rclone](https://rclone/rclone)
-- [ghcr.io/onedr0p](https://ghcr.io/onedr0p)
-- [ghcr.io/recyclarr/recyclarr](https://ghcr.io/recyclarr/recyclarr)
-- [ghcr.io/sct/overseerr](https://ghcr.io/sct/overseerr)
+- Each app directory contains an ArgoCD Application manifest (or a Helm chart reference) and environment-specific overlays if needed.
+- Keep cluster-level bootstrap manifests (ArgoCD installation, Secrets, Cilium installation) at [nix-homelab](https://github.com/sebastiaankok/nix-homelab).
+- Prefer immutable image tags in apps; use Renovate to propose updates.
+- Use Nix flakes for reproducible host configs; keep flake inputs committed to the repo.
 
-## ser2net
+---
 
-```yaml
-connection: &con01
-  enable: on
-  accepter: tcp,20108
-  connector: serialdev,/dev/serial/by-id/usb-ITead_Sonoff_Zigbee_3.0_USB_Dongle_Plus_da3c386a8212ec11915520c7bd930c07-if00-port0,115200n81,local,dtr=off,rts=off
-  options:
-    kickolduser: true
+## 🙏 Thanks
 
-connection: &con02
-  accepter: tcp,20208
-  connector: serialdev,/dev/serial/by-id/usb-FTDI_FT232R_USB_UART_AB4HWRSK-if00-port0,115200n81,local
-  options:
-    kickolduser: true
-    banner: *banner
-    telnet-brk-on-sync: true
+Thanks to the HomeOps community and all open-source projects used in this setup.
 
-connection: &con03
-  accepter: tcp,20308
-  connector: serialdev,/dev/serial/by-id/usb-RFXCOM_RFXtrx433XL_DO7372CL-if00-port0,38400n81,local
-  options:
-    kickolduser: true
-    telnet-brk-on-sync: true
-
-connection: &con04
-  accepter: tcp,20408
-  connector: serialdev,/dev/serial/by-id/usb-Silicon_Labs_CP2102_USB_to_UART_Bridge_Controller_0001-if00-port0,9600n81,local
-  options:
-    kickolduser: true
-    banner: *banner
-    telnet-brk-on-sync: true
-```
