@@ -9,7 +9,4 @@ spec:
   template:
     includedNamespaces:
     - media
-    labelSelector:
-      matchLabels:
-        app.kubernetes.io/name: jellyfin
     ttl: 336h0m0s
