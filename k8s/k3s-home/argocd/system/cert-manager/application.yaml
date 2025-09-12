@@ -1,0 +1,37 @@
+apiVersion: argoproj.io/v1alpha1
+kind: Application
+metadata:
+  name: cert-manager
+  namespace: argocd
+  annotations:
+    argocd.argoproj.io/sync-wave: "1"
+spec:
+  project: default
+  ignoreDifferences:
+  - kind: ClusterIssuer
+    group: cert-manager.io
+    name: letsencrypt-dns
+    jqPathExpressions:
+      - '.spec.acme.preferredChain'
+  syncPolicy:
+    automated:
+      prune: true
+    syncOptions:
+    - CreateNamespace=true
+  destination:
+    name: in-cluster
+    namespace: cert-manager
+  sources:
+    - repoURL: 'https://github.com/sebastiaankok/k8s-homelab.git'
+      targetRevision: main
+      ref: values
+      path: "k8s/k3s-home/argocd/system/cert-manager/"
+      directory:
+        exclude: '{application.yaml,values.yaml}'
+    - chart: cert-manager
+      repoURL: 'https://charts.jetstack.io'
+      targetRevision: v1.18.2
+      helm:
+        releaseName: "cert-manager"
+        valueFiles:
+          - $values/k8s/k3s-home/argocd/system/cert-manager/values.yaml
