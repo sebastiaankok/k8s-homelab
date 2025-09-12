@@ -1,0 +1,58 @@
+# yaml-language-server: $schema=https://raw.githubusercontent.com/bjw-s-labs/helm-charts/refs/heads/main/charts/library/common/values.schema.json
+controllers:
+  wol-proxy:
+    containers:
+      app:
+        image:
+          repository: ghcr.io/darksworm/go-wol-proxy
+          tag: sha-ab31ee92e28fd7ae87e2389b914f7ea25e0e70fe
+        resources:
+          requests:
+            cpu: 5m
+            memory: 10M
+          limits:
+            memory: 250M
+        securityContext:
+          runAsUser: 65534
+          runAsGroup: 65534
+          allowPrivilegeEscalation: false
+          readOnlyRootFilesystem: true
+          capabilities:
+            drop:
+              - ALL
+
+service:
+  app:
+    controller: wol-proxy
+    ports:
+      http:
+        port: 8080
+
+ingress:
+  app:
+    enabled: true
+    className: nginx
+    annotations:
+      cert-manager.io/cluster-issuer: letsencrypt-dns
+    hosts:
+      - host: wol-proxy.otohgunga.nl
+        paths:
+          - path: /
+            service:
+              identifier: app
+              port: http
+    tls:
+      - secretName: wol-proxy-https-tls
+        hosts:
+          - wol-proxy.otohgunga.nl
+
+
+persistence:
+  wol-proxy-configfile:
+    type: configMap
+    name: wol-proxy-config
+    advancedMounts:
+      wol-proxy:
+        app:
+          - path: /app/config.toml
+            subPath: config.toml
