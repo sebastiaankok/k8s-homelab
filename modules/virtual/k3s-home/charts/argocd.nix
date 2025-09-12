@@ -44,7 +44,7 @@
         project = "default";
         source = {
           repoURL = "https://github.com/sebastiaankok/k8s-homelab.git";
-          path = "clusters/k8s-home/argocd/apps";
+          path = "k8s/k3s-home/argocd";
           targetRevision = "HEAD";
           directory = {
             recurse = true;
