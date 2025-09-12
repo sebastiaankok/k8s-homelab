@@ -6,6 +6,9 @@ controllers:
         runAsGroup: 1000
         fsGroup: 1000
         fsGroupChangePolicy: OnRootMismatch
+      annotations:
+        backup.velero.io/backup-volumes: config
+        backup.velero.io/backup-volumes-excludes: media,tmpfs
     containers:
       main:
         image:
@@ -66,7 +69,7 @@ persistence:
     globalMounts:
       - path: /app/config
       - path: /app/config/cache
-  tmps:
+  tmpfs:
     type: emptyDir
     advancedMounts:
       jellyseerr:
