@@ -28,4 +28,4 @@ spec:
       helm:
         releaseName: "wol-proxy"
         valueFiles:
-          - $values/clusters/k8s-home/argocd/apps/network/values.yaml
+          - $values/clusters/k8s-home/argocd/apps/network/wol-proxy/values.yaml
