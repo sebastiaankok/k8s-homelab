@@ -35,16 +35,16 @@ ingress:
     annotations:
       cert-manager.io/cluster-issuer: letsencrypt-dns
     hosts:
-      - host: wol-proxy.otohgunga.nl
+      - host: llmstudio.otohgunga.nl
         paths:
           - path: /
             service:
               identifier: app
               port: http
     tls:
-      - secretName: wol-proxy-https-tls
+      - secretName: llmstudio-https-tls
         hosts:
-          - wol-proxy.otohgunga.nl
+          - llmstudio.otohgunga.nl
 
 
 persistence:
