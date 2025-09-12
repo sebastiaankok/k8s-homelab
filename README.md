@@ -28,47 +28,60 @@ This repository contains my **GitOps-driven homelab** powered by:
 
 Primary workloads: home automation, media, downloads, databases, networking and system services — all managed declaratively under `./clusters/k8s-home/argocd/apps`.
 
+## 🐧 NixOS Configurations
+
+This repo also manages my **NixOS fleet** using flakes, keeping everything reproducible and declarative:
+
+- **Main host (📦 B660 + i5-13600)** → runs k3s cluster workloads, microVMs, and ArgoCD-managed apps.
+- **Laptop (💻 Dell i5-7300U)** → my development machine with a full workstation profile (Home Manager, Neovim, Nixvim).
+- **Raspberry Pi 4 (🍓 ser2net)** → lightweight edge device for serial↔MQTT bridging.
+
+### 🔑 Features
+- **Flakes everywhere** → pinned inputs for deterministic builds.
+- **Secrets with `sops-nix`** → no secrets in Git, age/GPG-backed.
+- **MicroVM support** → lightweight VMs directly managed by Nix.
+- **Home Manager** → consistent user environments across devices.
+- **Nixvim integration** → Neovim fully configured via Nix modules (LSP, treesitter, telescope, etc.).
+
+This way, both my **infrastructure (k8s)** and my **developer experience (NixOS + Neovim)** are fully reproducible and version-controlled in one repo.
+
 ---
 
 ## <img src="https://fonts.gstatic.com/s/e/notoemoji/latest/1f331/512.gif" alt="🌱" width="20" height="20"> GitOps Layout
 
 ```sh
-📁 clusters
-└── 📁 k8s-home
-    ├── 📁 argocd
-    │   ├── 📁 apps
-    │   │   ├── 📁 databases
-    │   │   │   └── 📁 cnpg-operator
-    │   │   ├── 📁 home-automation
-    │   │   │   ├── 📁 mosquitto
-    │   │   │   ├── 📁 kamstrup-mqtt
-    │   │   │   ├── 📁 zigbee2mqtt
-    │   │   │   └── 📁 home-assistant
-    │   │   ├── 📁 network
-    │   │   │   └── 📁 wol-proxy
-    │   │   ├── 📁 system
-    │   │   │   ├── 📁 velero
-    │   │   │   ├── 📁 cert-manager
-    │   │   │   ├── 📁 ingress-nginx
-    │   │   │   └── 📁 ingress-nginx-media
-    │   │   ├── 📁 downloads
-    │   │   │   ├── 📁 bazarr
-    │   │   │   ├── 📁 prowlarr
-    │   │   │   ├── 📁 sabnzbd
-    │   │   │   ├── 📁 radarr
-    │   │   │   ├── 📁 sonarr
-    │   │   │   └── 📁 jellyseerr
-    │   │   ├── 📁 nvr
-    │   │   │   └── 📁 frigate
-    │   │   └── 📁 media
-    │   │       ├── 📁 jellyfin
-    │   │       └── 📁 immich
+📁 k8s
+└── 📁 k3s-home
+    └── 📁 argocd
+        ├── 📁 databases
+        │   └── 📁 cnpg-operator
+        │       └── application.yaml
+        ├── 📁 downloads
+        │   ├── 📁 bazarr
+        │   ├── 📁 jellyseerr
+        │   ├── 📁 prowlarr
+        │   ├── 📁 radarr
+        │   ├── 📁 sabnzbd
+        │   └── 📁 sonarr
+        ├── 📁 home-automation
+        │   ├── 📁 home-assistant
+        │   ├── 📁 kamstrup-mqtt
+        │   ├── 📁 mosquitto
+        │   └── 📁 zigbee2mqtt
+        ├── 📁 media
+        │   ├── 📁 immich
+        │   └── 📁 jellyfin
+        ├── 📁 monitoring
+        ├── 📁 network
+        │   └── 📁 wol-proxy
+        ├── 📁 nvr
+        │   └── 📁 frigate
+        └── 📁 system
+            ├── 📁 cert-manager
+            ├── 📁 ingress-nginx
+            ├── 📁 ingress-nginx-media
+            └── 📁 velero
 ```
-
-## 🧱 Hardware
-
-- **Main host**: Gigabyte B660M — 13th Gen Intel® Core™ i5-13600, **64 GB RAM**, **2 TB SSD** + **20 GB HDD**
-- **Edge**: Raspberry Pi 4 — **8 GB** (for edge/arm workloads)
 
 ---
 
