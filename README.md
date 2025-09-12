@@ -26,7 +26,7 @@ This repository contains my **GitOps-driven homelab** powered by:
 - **k3s** as the lightweight Kubernetes distribution
 - **ArgoCD** for continuous reconciliation of Kubernetes manifests
 
-Primary workloads: home automation, media, downloads, databases, networking and system services — all managed declaratively under `./clusters/k8s-home/argocd/apps`.
+Primary workloads: home automation, media, downloads, databases, networking and system services — all managed declaratively under `./k8s/k3s-home/argocd`.
 
 ## 🐧 NixOS Configurations
 
