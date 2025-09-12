@@ -18,32 +18,54 @@ _... managed with ArgoCD, NixOS, and k3s_ <img src="https://fonts.gstatic.com/s/
 
 ---
 
-## ⭐ Overview
+## 💡 Overview
 
 This repository contains my **GitOps-driven homelab** powered by:
 
-- **NixOS** (flake-based) for declarative host management
+- **NixOS (flake-based)** for declarative host management
 - **k3s** as the lightweight Kubernetes distribution
 - **ArgoCD** for continuous reconciliation of Kubernetes manifests
 
-Primary workloads: home automation, media, downloads, databases, networking and system services — all managed declaratively under `./k8s/k3s-home/argocd`.
+Primary workloads include **home automation, media, downloads, databases, networking, and system services** — all managed declaratively under `./k8s/k3s-home/argocd`.
 
-## 🐧 NixOS Configurations
+---
 
-This repo also manages my **NixOS fleet** using flakes, keeping everything reproducible and declarative:
+## 🐧 NixOS Fleet
 
-- **Main host (⚓ B660 + i5-13600)** → runs k3s cluster workloads, microVMs, and ArgoCD-managed apps.
-- **Laptop (💻 Dell i5-7300U)** → my development machine with a full workstation profile (Home Manager, Neovim, Nixvim).
-- **Raspberry Pi 4 (ser2net)** → lightweight device for serial ↔ MQTT bridging.
+Beyond Kubernetes, this repo also manages my **NixOS machines** with flakes, ensuring everything is reproducible:
 
-### 🔑 Features
-- **Flakes everywhere** → pinned inputs for deterministic builds.
-- **Secrets with `sops-nix`** → no secrets in Git, age/GPG-backed.
-- **MicroVM support** → lightweight VMs directly managed by Nix.
-- **Home Manager** → consistent user environments across devices.
-- **Nixvim integration** → Neovim fully configured via Nix modules (LSP, treesitter, telescope, etc.).
+- **Main host (⚓ B660 + i5-13600)** → runs the k3s cluster, microVMs, and ArgoCD apps
+- **Laptop (💻 Dell i5-7300U)** → development machine with workstation profile (Home Manager + Nixvim)
+- **Raspberry Pi 4 (ser2net)** → lightweight edge device for serial ↔ MQTT bridging
 
-This way, both my **infrastructure (k8s)** and my **developer experience (NixOS + Neovim)** are fully reproducible and version-controlled in one repo.
+---
+
+## 🔑 Key Features
+
+- **Deterministic builds** with pinned flake inputs
+- **Secret management** via `sops-nix` (no secrets in Git)
+- **MicroVM support** for lightweight VMs directly in Nix
+- **Home Manager** for consistent user environments
+- **Nixvim-powered Neovim** with LSP, treesitter, telescope, and more
+
+With this setup, both my **infrastructure (k8s)** and my **developer experience (NixOS + Neovim)** live in a **single, version-controlled repo**.
+
+---
+
+## ⌨ Neovim Configuration
+
+This repository also manages my **Neovim setup** declaratively through [nixvim](https://github.com/nix-community/nixvim), giving me a fully reproducible development environment:
+
+- **Plugin management via Nix**:
+  - **LSP support** (`lsp.nix`) for intelligent code completions and diagnostics
+  - **Treesitter** syntax highlighting and parsing (`treesitter.nix`)
+  - **Telescope** fuzzy finder (`telescope.nix`)
+  - **Git integration** with `gitsigns.nix` and `gitblame.nix`
+  - **Productivity enhancements** like `autopairs.nix`, `todo-comments.nix`, `trouble.nix`, and `which-key.nix`
+  - **UI/UX improvements** with `lualine.nix`, `neo-tree.nix`, `colorizer.nix`, and `markview.nix`
+  - **LLM assistance** via `avante.nix`
+
+With this setup, Neovim behaves consistently across all NixOS hosts, and updates are **fully reproducible via flakes**. Every plugin and configuration is version-controlled, ensuring that my editor is portable and crash-proof.
 
 ---
 
