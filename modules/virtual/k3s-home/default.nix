@@ -36,17 +36,9 @@ in
     };
   };
 
-  # Create sops
+  # Import host requirements
   imports = [
     ./k3s-secrets.nix
     ./storage.nix
   ];
-
-  #services.restic.backups = (config.lib.hostConfig.mkRestic {
-  # inherit app;
-  # paths = [ cfg.dirs.contentDir ];
-  # excludePath = [
-  #  "metadata"
-  # ];
-  #});
 }
