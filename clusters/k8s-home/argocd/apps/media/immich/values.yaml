@@ -9,7 +9,6 @@ controllers:
         runAsUser: 1006
         runAsGroup: 1006
         runAsNonRoot: true
-        fsGroup: 1006
       annotations:
         backup.velero.io/backup-volumes: library
         backup.velero.io/backup-volumes-excludes: cache, matplotlib, tmpfs
@@ -53,7 +52,6 @@ controllers:
         runAsUser: 1006
         runAsGroup: 1006
         runAsNonRoot: true
-        fsGroup: 1006
     containers:
       main:
         image:
