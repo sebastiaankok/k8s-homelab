@@ -18,7 +18,7 @@ _... managed with ArgoCD, NixOS, and k3s_ <img src="https://fonts.gstatic.com/s/
 
 ---
 
-## 💡 Overview
+## ⭐ Overview
 
 This repository contains my **GitOps-driven homelab** powered by:
 
@@ -32,9 +32,9 @@ Primary workloads: home automation, media, downloads, databases, networking and 
 
 This repo also manages my **NixOS fleet** using flakes, keeping everything reproducible and declarative:
 
-- **Main host (📦 B660 + i5-13600)** → runs k3s cluster workloads, microVMs, and ArgoCD-managed apps.
+- **Main host (⚓ B660 + i5-13600)** → runs k3s cluster workloads, microVMs, and ArgoCD-managed apps.
 - **Laptop (💻 Dell i5-7300U)** → my development machine with a full workstation profile (Home Manager, Neovim, Nixvim).
-- **Raspberry Pi 4 (🍓 ser2net)** → lightweight edge device for serial↔MQTT bridging.
+- **Raspberry Pi 4 (ser2net)** → lightweight device for serial ↔ MQTT bridging.
 
 ### 🔑 Features
 - **Flakes everywhere** → pinned inputs for deterministic builds.
@@ -47,7 +47,7 @@ This way, both my **infrastructure (k8s)** and my **developer experience (NixOS 
 
 ---
 
-## <img src="https://fonts.gstatic.com/s/e/notoemoji/latest/1f331/512.gif" alt="🌱" width="20" height="20"> GitOps Layout
+## <img src="https://fonts.gstatic.com/s/e/notoemoji/latest/1f331/512.gif" alt="📜" width="20" height="20"> GitOps Layout
 
 ```sh
 📁 k8s
@@ -96,5 +96,4 @@ This way, both my **infrastructure (k8s)** and my **developer experience (NixOS 
 
 ## 🙏 Thanks
 
-Thanks to the HomeOps community and all open-source projects used in this setup.
-
+Big thanks to the **HomeOps community** and everyone sharing their homelab repositories, they’ve been an incredible source of inspiration.
