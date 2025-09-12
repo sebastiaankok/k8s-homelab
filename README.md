@@ -88,7 +88,7 @@ This way, both my **infrastructure (k8s)** and my **developer experience (NixOS 
 ## ✅ Conventions & Notes
 
 - Each app directory contains an ArgoCD Application manifest (or a Helm chart reference) and environment-specific overlays if needed.
-- Keep cluster-level bootstrap manifests (ArgoCD installation, Secrets, Cilium installation) at [nix-homelab](https://github.com/sebastiaankok/nix-homelab).
+- Keep cluster-level bootstrap manifests (ArgoCD installation, Secrets, Cilium installation) at [nixos-microvm](https://github.com/sebastiaankok/home-ops/tree/main/modules/virtual/k3s-home).
 - Prefer immutable image tags in apps; use Renovate to propose updates.
 - Use Nix flakes for reproducible host configs; keep flake inputs committed to the repo.
 
