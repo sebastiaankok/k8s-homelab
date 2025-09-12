@@ -6,10 +6,10 @@ controllers:
 
     pod:
       securityContext:
-        runAsUser: 992
-        runAsGroup: 990
+        runAsUser: 1000
+        runAsGroup: 1000
         runAsNonRoot: true
-        fsGroup: 990
+        fsGroup: 1000
         fsGroupChangePolicy: "OnRootMismatch"
       annotations:
         backup.velero.io/backup-volumes: config
