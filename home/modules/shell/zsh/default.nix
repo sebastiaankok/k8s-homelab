@@ -5,7 +5,7 @@
     enableCompletion = true;
     shellAliases = {
       k = "kubecolor";
-      up = "sudo nixos-rebuild switch --flake path:/home/sebastiaan/projects/nix-homelab ; source ~/.zshrc";
+      up = "sudo nixos-rebuild switch --flake path:/home/sebastiaan/projects/home-ops ; source ~/.zshrc";
       kx = "switch";
       synccluster = "export KUBECONFIG=$HOME/.kube/config; echo '' > $KUBECONFIG; tsh kube login --all --set-context-name {{.KubeName}}";
       ad = "kx k3s-home && kx ns argocd && argocd admin dashboard --core";
