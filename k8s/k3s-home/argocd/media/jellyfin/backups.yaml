@@ -7,6 +7,7 @@ spec:
   schedule: '@every 24h'
   skipImmediately: false
   template:
+    snapshotVolumes: false
     includedNamespaces:
     - media
     ttl: 336h0m0s
