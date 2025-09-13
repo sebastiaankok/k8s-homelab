@@ -30,13 +30,40 @@ Primary workloads include **home automation, media, downloads, databases, networ
 
 ---
 
-## 🐧 NixOS Fleet
+## 🐧 NixOS
 
 Beyond Kubernetes, this repo also manages my **NixOS machines** with flakes, ensuring everything is reproducible:
 
 - **Main host (⚓ B660 + i5-13600)** → runs the k3s cluster, microVMs, and ArgoCD apps
 - **Laptop (💻 Dell i5-7300U)** → development machine with workstation profile (Home Manager + Nixvim)
 - **Raspberry Pi 4 (ser2net)** → lightweight edge device for serial ↔ MQTT bridging
+
+## ⚡ Usage
+
+### Install from GitHub
+Build and switch a host directly from this repo:
+```bash
+sudo nixos-rebuild switch --flake github:sebastiaankok/nix-homelab#HOSTNAME
+```
+
+Build from local
+```bash
+cd ~/nix-config
+nixos-rebuild switch --flake .
+```
+
+Manually updating flake lock files
+```bash
+nix flake update
+```
+
+### 📂 Repo structure (NixOS side)
+
+- **`flake.nix`** → defines hosts, inputs and modules
+- **`flake.lock`** → pins inputs for reproducible builds
+- **`hosts/`** → machine-specific configs (`b660-i5-13600/`, `dell-i5-7300U/`, `rpi4-ser2net/`)
+- **`modules/`** → reusable service/system/microvm modules (e.g. `k3s-home/`, `prometheus/`)
+- **`profiles/`** → role-based configs (e.g. `workstation.nix`)
 
 ---
 
