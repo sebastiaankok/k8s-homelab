@@ -6,7 +6,7 @@ controllers:
     pod:
       enableServiceLinks: false
       securityContext:
-        runAsUser: 1006
+        runAsUser: 999
         runAsGroup: 1006
         runAsNonRoot: true
       annotations:
