@@ -75,14 +75,14 @@ controllers:
             memory: 3949M
 
   valkey:
-    pod:
-      enableServiceLinks: false
-      securityContext:
-        runAsUser: 65534
-        runAsGroup: 65534
-        runAsNonRoot: true
-      annotations:
-        backup.velero.io/backup-volumes-excludes: library, cache, matplotlib, tmpfs
+    # pod:
+    #   enableServiceLinks: false
+    #   securityContext:
+    #     runAsUser: 65534
+    #     runAsGroup: 65534
+    #     runAsNonRoot: true
+    #   annotations:
+    #     backup.velero.io/backup-volumes-excludes: library, cache, matplotlib, tmpfs
     containers:
       app:
         image:
