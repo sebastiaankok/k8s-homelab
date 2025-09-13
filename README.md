@@ -116,6 +116,9 @@ With this setup, Neovim behaves consistently across all NixOS hosts, and updates
 
 ---
 
-## 🙏 Thanks
+## 🙏 Acknowledgements
 
-Big thanks to the **HomeOps community** and everyone sharing their homelab repositories, they’ve been an incredible source of inspiration.
+This setup takes inspiration from the **HomeOps community** and builds on great projects like:
+- [bjw-s-labs/helm-charts](https://github.com/bjw-s-labs/helm-charts)
+- [nix-community/nixvim](https://github.com/nix-community/nixvim)
+- [whazor/k8s-at-home-search](https://github.com/whazor/k8s-at-home-search)
