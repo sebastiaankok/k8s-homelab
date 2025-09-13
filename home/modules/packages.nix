@@ -74,6 +74,8 @@
     helm-ls
     argocd
     velero
+    kopia
+    kopia-ui
 
     ## ai
     aider-chat-full
